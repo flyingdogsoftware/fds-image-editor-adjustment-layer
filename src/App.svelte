@@ -54,8 +54,9 @@
     }
 
     export async function prepareForSave() {
-        
-        return layer
+        let copy=JSON.parse(JSON.stringify(layer))
+        copy.url=null
+        return copy
     }
 
     export function getLayerMenuHTML(l,thumbclass,thumbStyle) {
@@ -84,7 +85,7 @@
     for(let i=layers.length-1;i>=0;i--) {      // get all layers with image (url) in it below adjustment layer
       let l=layers[i]
       if (l.id===layer.id) break;
-      if (l.url) list.unshift(l)
+      if (l.url && l.visible) list.unshift(l)
     }
     showProgress=true
     await tick()
@@ -100,18 +101,14 @@
           console.log("Error at "+nodeName)
       }
 
-      let data=JSON.parse(JSON.stringify(layer.formData));
-
-      data = data.reduce((acc, item) => {
-        acc[item.name] = item.hasOwnProperty('value') ? item.value : null;
-        return acc;
-      }, {});
-
-
+      let data=gyre.ComfyUI.convertFormData(layer.formData)
       data.currentLayer="empty"   // !important: set default empty values for files for calling callbacks
       let callback_finished = async (result) => {
               let img=result[0].mime+";charset=utf-8;base64,"+result[0].base64
-              layer.url=img
+              // apply alpha channel to result
+              if (layer.no_preserve_transparency) layer.url=img
+              else layer.url=await gyre.imageAPI.applyAlphaChannel(img,mergedImageURL)
+              
               showProgress=false
               let component = layer.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0]
               component.refresh()
@@ -153,9 +150,10 @@
 let showProgress
 </script>
 {#if layer.url}
-    <div style="{width}px;height={height}px; position: relative"></div>
+    <div style="{width}px;height={height}px; position: relative">
     <!-- svelte-ignore a11y-missing-attribute -->
-    <img src={layer.url} style="{width}px;height={height}px">
+    <img src={layer.url} style="{width}px;height={height}px"> 
+    </div>
     {#if showProgress}<div style="position:absolute;left:0;top:0"><fds-image-editor-progress-bar></fds-image-editor-progress-bar></div>{/if}
 {/if}
 

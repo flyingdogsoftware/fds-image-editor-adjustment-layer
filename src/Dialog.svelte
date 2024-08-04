@@ -2,14 +2,17 @@
 
 <script>
 
-  export let layer = {};
+  export let layer = {}
+
+   /**
+   * put all available workflows in menu structure
+   */ 
   function convertToMenuStructure(array) {
     const menu = {};
 
     array.forEach((item) => {
-      const categoryKey = item.category.toLowerCase() + "Menu";
-      const itemKey = item.name.replace(/\s+/g, "").toLowerCase();
-
+      const categoryKey = item.category.toLowerCase() + "Menu"
+      const itemKey = item.name.replace(/\s+/g, "").toLowerCase()
       if (!menu[categoryKey]) {
         menu[categoryKey] = {
           name: item.category + " Options",
@@ -20,10 +23,11 @@
       menu[categoryKey].items[itemKey] = {
         workflowid: item.workflowid,
         name: item.name,
-      };
-    });
-    return menu;
+      }
+    })
+    return menu
   }
+
   function openMenu() {
     var contextMenu = window.document.createElement("fds-image-editor-menu");
     contextMenu.menu = menu;
@@ -31,6 +35,7 @@
     contextMenu.callback = (name, p, item) => {
         layer.workflowid=item.workflowid
         layer.workflowname=item.name
+        layer.no_preserve_transparency=item.no_preserve_transparency
         layer.formData={}
         layer=layer        
         // open dialog
@@ -49,7 +54,7 @@
     if (!layers || layers.length===1) return  // nothing below adjustment layer -> do nothing
     for(let i=layers.length-1;i>=0;i--) {      // get all adjustment layer in stack
       let l=layers[i]
-      if (l.type==="fds-image-editor-adjustment-layer") {
+      if (l.type==="fds-image-editor-adjustment-layer" && l.visible) {
         let component = layer.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0]
         component.execute()
       }
@@ -78,6 +83,7 @@
           name: el.name,
           category: gyreobj.category,
           workflowid: gyreobj.workflowid,
+          no_preserve_transparency: gyreobj.no_preserve_transparency
         }
       })
     menu = convertToMenuStructure(layerWFs)

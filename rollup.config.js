@@ -101,7 +101,7 @@ export default {
                 {src: "src/index.html", dest: "dist"},
                 {src: "src/gyre_paint.png", dest: "dist"},
                 {src: "src/gyre_paint_transparent.png", dest: "dist"},
-                {src: "src/back.png", dest: "dist"},
+                {src: "src/back2.png", dest: "dist"},
 
             ],
             verbose: true
