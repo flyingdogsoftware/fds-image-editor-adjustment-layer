@@ -102,6 +102,7 @@ export default {
                 {src: "src/gyre_paint.png", dest: "dist"},
                 {src: "src/gyre_paint_transparent.png", dest: "dist"},
                 {src: "src/back2.png", dest: "dist"},
+                {src: "src/img/*", dest: "dist/img/"},
 
             ],
             verbose: true

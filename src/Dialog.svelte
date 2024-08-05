@@ -1,9 +1,13 @@
 <svelte:options tag="fds-image-editor-adjustment-layer-toolbar" />
 
 <script>
+    import {  onMount } from "svelte"
 
   export let layer = {}
 
+  onMount(async () => {
+    refresh()
+	})
    /**
    * put all available workflows in menu structure
    */ 
@@ -37,7 +41,9 @@
         layer.workflowname=item.name
         layer.no_preserve_transparency=item.no_preserve_transparency
         layer.formData={}
+        layer.name=item.name
         layer=layer        
+        globalThis.gyre.layerManager.selectLayers([layer.id])
         // open dialog
         openProperties()
 //       
@@ -45,9 +51,10 @@
     document.body.append(contextMenu)
   }
   function openProperties() {
+    console.log("openProperties",layer)
     globalThis.gyre.openDialogById(layer.workflowid,layer.formData,layer.workflowname,(newData) => { layer.formData=newData;})
   }
-  export function executeAll() {
+  export async function executeAll() {
     let gyre=globalThis.gyre
 
     let layers=gyre.layerManager.getLayersSameLevel(layer.id)
@@ -55,8 +62,8 @@
     for(let i=layers.length-1;i>=0;i--) {      // get all adjustment layer in stack
       let l=layers[i]
       if (l.type==="fds-image-editor-adjustment-layer" && l.visible) {
-        let component = layer.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0]
-        component.execute()
+        let component = l.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0]
+        await component.execute()
       }
 
     }
@@ -69,13 +76,13 @@
   export function refresh() {
     if (!globalThis.gyre) return;
     let gyre = globalThis.gyre;
-    if (!gyre.ComfyUI || !gyre.ComfyUI.workflowList) return;
+    if (!gyre.ComfyUI || !gyre.ComfyUI.workflowList) return
     // get all layer workflows which are active
     let layerWFs = gyre.ComfyUI.workflowList.filter((el) => {
         let gyreobj = JSON.parse(el.json).extra.gyre;
-        if (!gyreobj.tags || !gyreobj.tags.includes("LayerMenu")) return false;
-        if (gyreobj.tags && gyreobj.tags.includes("Deactivated")) return false;
-        if (!gyreobj.category) gyreobj.category = "Other";
+        if (!gyreobj.tags || !gyreobj.tags.includes("LayerMenu")) return false
+        if (gyreobj.tags && gyreobj.tags.includes("Deactivated")) return false
+        if (!gyreobj.category) gyreobj.category = "Other"
         return true;
       }).map((el) => {
         let gyreobj = JSON.parse(el.json).extra.gyre;
@@ -97,6 +104,9 @@
 
 <div>
   {#if !layer.workflowid}
+  <fds-image-editor-button icon="fds-image-editor-adjustment-layer-icon" type="icon" class="icon"></fds-image-editor-button>
+
+    Adjustment Layer:
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <fds-image-editor-button
       type="button"
@@ -104,6 +114,8 @@
       bind:this={selectButton}>Select Workflow...</fds-image-editor-button
     >
     {:else}
+    <fds-image-editor-button icon="fds-image-editor-adjustment-layer-icon" type="icon" class="icon"></fds-image-editor-button>
+
     Adjustment Layer:
     {layer.workflowname} 
     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -123,3 +135,8 @@
   {/if}
   
 </div>
+<style>
+  .icon {
+    vertical-align: -10px;
+  }
+</style>

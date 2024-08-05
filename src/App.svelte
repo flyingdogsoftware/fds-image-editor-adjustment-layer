@@ -23,6 +23,7 @@
     export let layer={} 
 
     export function refresh() {
+      console.log("UPDATE")
         layer=layer
     }
 
@@ -60,13 +61,16 @@
     }
 
     export function getLayerMenuHTML(l,thumbclass,thumbStyle) {
+        if (!layer.workflowid) l.name="Select Workflow..."
         // justr render a T as thumb. Could be an image as well
         let html=
             '<div ' +
             thumbclass +
             ' style="' +
             thumbStyle +
-            ' font-size:33px;font-weight:bold;display:flex;align-content:space-between;justify-content:space-around;align-items: center;">A</div> ' +
+            ' font-size:33px;font-weight:bold;display:flex;align-content:space-between;justify-content:space-around;align-items: center;">'
+            +'<fds-image-editor-button icon="fds-image-editor-adjustment-layer-icon" type="icon"></fds-image-editor-button>'
+            + '</div> ' +
             l.name
         return html
     }
@@ -77,43 +81,59 @@
     }
     let mergedImageURL
   export async function execute() {
-    let gyre=globalThis.gyre
+    let gyre = globalThis.gyre;
 
-    let layers=gyre.layerManager.getLayersSameLevel(layer.id)
-    if (!layers || layers.length===1) return  // nothing below adjustment layer -> do nothing
-    let list=[]
-    for(let i=layers.length-1;i>=0;i--) {      // get all layers with image (url) in it below adjustment layer
-      let l=layers[i]
-      if (l.id===layer.id) break;
-      if (l.url && l.visible) list.unshift(l)
+    let layers = gyre.layerManager.getLayersSameLevel(layer.id);
+    if (!layers || layers.length === 1) return; // nothing below adjustment layer -> do nothing
+
+    let list = [];
+    for (let i = layers.length - 1; i >= 0; i--) { // get all layers with image (url) in it below adjustment layer
+        let l = layers[i];
+        if (l.id === layer.id) break;
+        if (l.url && l.visible) list.unshift(l);
     }
-    showProgress=true
-    await tick()
 
-    mergedImageURL=await mergeLayers(list,gyre.canvas) // get merged image of all layers below
-    let callBack_files = async (callbacktype,name,v2,v3,v4) => {    // callback for getting files from mappings
-      console.log(callbacktype,name)
-      if (callbacktype==="getLayerImage" && name==="currentLayer") {
-          return await mergedImageURL
-      }      
-    }
-      let callback_error = async (nodeName) => {
-          console.log("Error at "+nodeName)
-      }
+    showProgress = true;
+    await tick();
 
-      let data=gyre.ComfyUI.convertFormData(layer.formData)
-      data.currentLayer="empty"   // !important: set default empty values for files for calling callbacks
-      let callback_finished = async (result) => {
-              let img=result[0].mime+";charset=utf-8;base64,"+result[0].base64
-              // apply alpha channel to result
-              if (layer.no_preserve_transparency) layer.url=img
-              else layer.url=await gyre.imageAPI.applyAlphaChannel(img,mergedImageURL)
-              
-              showProgress=false
-              let component = layer.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0]
-              component.refresh()
-      }            
-      await gyre.ComfyUI.executeWorkflowById(layer.workflowid, callback_finished, callBack_files,data,callback_error)          
+    mergedImageURL = await mergeLayers(list, gyre.canvas); // get merged image of all layers below
+
+    let callBack_files = async (callbacktype, name, v2, v3, v4) => { // callback for getting files from mappings
+        console.log(callbacktype, name);
+        if (callbacktype === "getLayerImage" && name === "currentLayer") {
+            return await mergedImageURL;
+        }
+    };
+
+    let callback_error = async (nodeName) => {
+        console.log("Error at " + nodeName);
+    };
+
+    let data = gyre.ComfyUI.convertFormData(layer.formData);
+    data.currentLayer = "empty"; // !important: set default empty values for files for calling callbacks
+
+    let executeWorkflow = () => {
+        return new Promise((resolve, reject) => {
+            let callback_finished = async (result) => {
+                let img = result[0].mime + ";charset=utf-8;base64," + result[0].base64;
+                // apply alpha channel to result
+                if (layer.no_preserve_transparency) {
+                    layer.url = img;
+                } else {
+                    layer.url = await gyre.imageAPI.applyAlphaChannel(img, mergedImageURL);
+                }
+
+                showProgress = false;
+                let component = layer.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0];
+                component.refresh();
+                resolve();
+            };
+
+            gyre.ComfyUI.executeWorkflowById(layer.workflowid, callback_finished, callBack_files, data, callback_error);
+        });
+    };
+
+    await executeWorkflow();
   }
 
   async function mergeLayers(layers, canvasObject) {
@@ -152,7 +172,7 @@ let showProgress
 {#if layer.url}
     <div style="{width}px;height={height}px; position: relative">
     <!-- svelte-ignore a11y-missing-attribute -->
-    <img src={layer.url} style="{width}px;height={height}px"> 
+    <img src={layer.url} style="width:{width}px;height={height}px"> 
     </div>
     {#if showProgress}<div style="position:absolute;left:0;top:0"><fds-image-editor-progress-bar></fds-image-editor-progress-bar></div>{/if}
 {/if}
