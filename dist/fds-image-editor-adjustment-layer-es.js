@@ -90,6 +90,22 @@ function set_style(node, key, value, important) {
         node.style.setProperty(key, value, important ? 'important' : '');
     }
 }
+function select_option(select, value, mounting) {
+    for (let i = 0; i < select.options.length; i += 1) {
+        const option = select.options[i];
+        if (option.__value === value) {
+            option.selected = true;
+            return;
+        }
+    }
+    if (!mounting || value !== undefined) {
+        select.selectedIndex = -1; // no option should be selected
+    }
+}
+function select_value(select) {
+    const selected_option = select.querySelector(':checked');
+    return selected_option && selected_option.__value;
+}
 function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
     const e = document.createEvent('CustomEvent');
     e.initCustomEvent(type, bubbles, cancelable, detail);
@@ -451,7 +467,7 @@ function validate_slots(name, slot, keys) {
 const { console: console_1$1 } = globals;
 const file$1 = "src/Dialog.svelte";
 
-// (139:4) {:else}
+// (154:3) {:else}
 function create_else_block(ctx) {
 	let fds_image_editor_button0;
 	let t0;
@@ -460,30 +476,28 @@ function create_else_block(ctx) {
 	let t2;
 	let fds_image_editor_button1;
 	let t4;
-	let fds_image_editor_button2;
+	let if_block_anchor;
 	let mounted;
 	let dispose;
+	let if_block = /*paletteValues*/ ctx[2] && create_if_block_1$1(ctx);
 
 	const block = {
 		c: function create() {
 			fds_image_editor_button0 = element("fds-image-editor-button");
-			t0 = text("\n\n    Adjustment Layer:\n    ");
+			t0 = text("\n\n      Adjustment Layer:\n      ");
 			t1 = text(t1_value);
 			t2 = space();
 			fds_image_editor_button1 = element("fds-image-editor-button");
 			fds_image_editor_button1.textContent = "Properties...";
 			t4 = space();
-			fds_image_editor_button2 = element("fds-image-editor-button");
-			fds_image_editor_button2.textContent = "Update Layers";
+			if (if_block) if_block.c();
+			if_block_anchor = empty();
 			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
 			set_custom_element_data(fds_image_editor_button0, "type", "icon");
 			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-			add_location(fds_image_editor_button0, file$1, 139, 4, 4766);
+			add_location(fds_image_editor_button0, file$1, 154, 6, 5624);
 			set_custom_element_data(fds_image_editor_button1, "type", "button");
-			add_location(fds_image_editor_button1, file$1, 144, 4, 5003);
-			set_custom_element_data(fds_image_editor_button2, "type", "button");
-			set_custom_element_data(fds_image_editor_button2, "state", "active");
-			add_location(fds_image_editor_button2, file$1, 150, 4, 5225);
+			add_location(fds_image_editor_button1, file$1, 159, 6, 5869);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, fds_image_editor_button0, anchor);
@@ -491,22 +505,31 @@ function create_else_block(ctx) {
 			insert_dev(target, t1, anchor);
 			insert_dev(target, t2, anchor);
 			insert_dev(target, fds_image_editor_button1, anchor);
-			/*fds_image_editor_button1_binding_1*/ ctx[7](fds_image_editor_button1);
+			/*fds_image_editor_button1_binding_1*/ ctx[9](fds_image_editor_button1);
 			insert_dev(target, t4, anchor);
-			insert_dev(target, fds_image_editor_button2, anchor);
-			/*fds_image_editor_button2_binding*/ ctx[8](fds_image_editor_button2);
+			if (if_block) if_block.m(target, anchor);
+			insert_dev(target, if_block_anchor, anchor);
 
 			if (!mounted) {
-				dispose = [
-					listen_dev(fds_image_editor_button1, "click", /*openProperties*/ ctx[4], false, false, false, false),
-					listen_dev(fds_image_editor_button2, "click", /*executeAll*/ ctx[1], false, false, false, false)
-				];
-
+				dispose = listen_dev(fds_image_editor_button1, "click", /*openProperties*/ ctx[5], false, false, false, false);
 				mounted = true;
 			}
 		},
 		p: function update(ctx, dirty) {
 			if (dirty & /*layer*/ 1 && t1_value !== (t1_value = /*layer*/ ctx[0].workflowname + "")) set_data_dev(t1, t1_value);
+
+			if (/*paletteValues*/ ctx[2]) {
+				if (if_block) {
+					if_block.p(ctx, dirty);
+				} else {
+					if_block = create_if_block_1$1(ctx);
+					if_block.c();
+					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+				}
+			} else if (if_block) {
+				if_block.d(1);
+				if_block = null;
+			}
 		},
 		d: function destroy(detaching) {
 			if (detaching) detach_dev(fds_image_editor_button0);
@@ -514,12 +537,12 @@ function create_else_block(ctx) {
 			if (detaching) detach_dev(t1);
 			if (detaching) detach_dev(t2);
 			if (detaching) detach_dev(fds_image_editor_button1);
-			/*fds_image_editor_button1_binding_1*/ ctx[7](null);
+			/*fds_image_editor_button1_binding_1*/ ctx[9](null);
 			if (detaching) detach_dev(t4);
-			if (detaching) detach_dev(fds_image_editor_button2);
-			/*fds_image_editor_button2_binding*/ ctx[8](null);
+			if (if_block) if_block.d(detaching);
+			if (detaching) detach_dev(if_block_anchor);
 			mounted = false;
-			run_all(dispose);
+			dispose();
 		}
 	};
 
@@ -527,14 +550,14 @@ function create_else_block(ctx) {
 		block,
 		id: create_else_block.name,
 		type: "else",
-		source: "(139:4) {:else}",
+		source: "(154:3) {:else}",
 		ctx
 	});
 
 	return block;
 }
 
-// (129:2) {#if !layer.workflowid}
+// (144:2) {#if !layer.workflowid}
 function create_if_block$1(ctx) {
 	let fds_image_editor_button0;
 	let t0;
@@ -545,24 +568,24 @@ function create_if_block$1(ctx) {
 	const block = {
 		c: function create() {
 			fds_image_editor_button0 = element("fds-image-editor-button");
-			t0 = text("\n\n    Adjustment Layer:\n    \n    ");
+			t0 = text("\n\n      Adjustment Layer:\n      \n      ");
 			fds_image_editor_button1 = element("fds-image-editor-button");
 			fds_image_editor_button1.textContent = "Select Workflow...";
 			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
 			set_custom_element_data(fds_image_editor_button0, "type", "icon");
 			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-			add_location(fds_image_editor_button0, file$1, 129, 2, 4387);
+			add_location(fds_image_editor_button0, file$1, 144, 4, 5230);
 			set_custom_element_data(fds_image_editor_button1, "type", "button");
-			add_location(fds_image_editor_button1, file$1, 133, 4, 4598);
+			add_location(fds_image_editor_button1, file$1, 148, 6, 5447);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, fds_image_editor_button0, anchor);
 			insert_dev(target, t0, anchor);
 			insert_dev(target, fds_image_editor_button1, anchor);
-			/*fds_image_editor_button1_binding*/ ctx[6](fds_image_editor_button1);
+			/*fds_image_editor_button1_binding*/ ctx[8](fds_image_editor_button1);
 
 			if (!mounted) {
-				dispose = listen_dev(fds_image_editor_button1, "click", /*openMenu*/ ctx[3], false, false, false, false);
+				dispose = listen_dev(fds_image_editor_button1, "click", /*openMenu*/ ctx[4], false, false, false, false);
 				mounted = true;
 			}
 		},
@@ -571,7 +594,7 @@ function create_if_block$1(ctx) {
 			if (detaching) detach_dev(fds_image_editor_button0);
 			if (detaching) detach_dev(t0);
 			if (detaching) detach_dev(fds_image_editor_button1);
-			/*fds_image_editor_button1_binding*/ ctx[6](null);
+			/*fds_image_editor_button1_binding*/ ctx[8](null);
 			mounted = false;
 			dispose();
 		}
@@ -581,7 +604,182 @@ function create_if_block$1(ctx) {
 		block,
 		id: create_if_block$1.name,
 		type: "if",
-		source: "(129:2) {#if !layer.workflowid}",
+		source: "(144:2) {#if !layer.workflowid}",
+		ctx
+	});
+
+	return block;
+}
+
+// (165:6) {#if paletteValues}
+function create_if_block_1$1(ctx) {
+	let t0;
+	let select;
+	let option0;
+	let option1;
+	let option2;
+	let option3;
+	let option4;
+	let option5;
+	let option6;
+	let t8;
+	let if_block_anchor;
+	let mounted;
+	let dispose;
+	let if_block = /*paletteValues*/ ctx[2].adjustment_layer_update === "never" && create_if_block_2(ctx);
+
+	const block = {
+		c: function create() {
+			t0 = text("  Update-Intervall: ");
+			select = element("select");
+			option0 = element("option");
+			option0.textContent = "never";
+			option1 = element("option");
+			option1.textContent = "250ms";
+			option2 = element("option");
+			option2.textContent = "500ms";
+			option3 = element("option");
+			option3.textContent = "1s";
+			option4 = element("option");
+			option4.textContent = "2s";
+			option5 = element("option");
+			option5.textContent = "5s";
+			option6 = element("option");
+			option6.textContent = "10s";
+			t8 = space();
+			if (if_block) if_block.c();
+			if_block_anchor = empty();
+			option0.__value = "never";
+			option0.value = option0.__value;
+			add_location(option0, file$1, 171, 8, 6276);
+			option1.__value = "250";
+			option1.value = option1.__value;
+			add_location(option1, file$1, 172, 8, 6321);
+			option2.__value = "500";
+			option2.value = option2.__value;
+			add_location(option2, file$1, 173, 8, 6364);
+			option3.__value = "1000";
+			option3.value = option3.__value;
+			add_location(option3, file$1, 174, 8, 6407);
+			option4.__value = "2000";
+			option4.value = option4.__value;
+			add_location(option4, file$1, 175, 8, 6448);
+			option5.__value = "5000";
+			option5.value = option5.__value;
+			add_location(option5, file$1, 176, 8, 6489);
+			option6.__value = "10000";
+			option6.value = option6.__value;
+			add_location(option6, file$1, 177, 8, 6530);
+			attr_dev(select, "class", "formInput");
+			attr_dev(select, "name", "adjustment_layer_update");
+			if (/*paletteValues*/ ctx[2].adjustment_layer_update === void 0) add_render_callback(() => /*select_change_handler*/ ctx[10].call(select));
+			add_location(select, file$1, 165, 33, 6093);
+		},
+		m: function mount(target, anchor) {
+			insert_dev(target, t0, anchor);
+			insert_dev(target, select, anchor);
+			append_dev(select, option0);
+			append_dev(select, option1);
+			append_dev(select, option2);
+			append_dev(select, option3);
+			append_dev(select, option4);
+			append_dev(select, option5);
+			append_dev(select, option6);
+			select_option(select, /*paletteValues*/ ctx[2].adjustment_layer_update, true);
+			insert_dev(target, t8, anchor);
+			if (if_block) if_block.m(target, anchor);
+			insert_dev(target, if_block_anchor, anchor);
+
+			if (!mounted) {
+				dispose = [
+					listen_dev(select, "change", /*changeInterval*/ ctx[6], false, false, false, false),
+					listen_dev(select, "change", /*select_change_handler*/ ctx[10])
+				];
+
+				mounted = true;
+			}
+		},
+		p: function update(ctx, dirty) {
+			if (dirty & /*paletteValues*/ 4) {
+				select_option(select, /*paletteValues*/ ctx[2].adjustment_layer_update);
+			}
+
+			if (/*paletteValues*/ ctx[2].adjustment_layer_update === "never") {
+				if (if_block) {
+					if_block.p(ctx, dirty);
+				} else {
+					if_block = create_if_block_2(ctx);
+					if_block.c();
+					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+				}
+			} else if (if_block) {
+				if_block.d(1);
+				if_block = null;
+			}
+		},
+		d: function destroy(detaching) {
+			if (detaching) detach_dev(t0);
+			if (detaching) detach_dev(select);
+			if (detaching) detach_dev(t8);
+			if (if_block) if_block.d(detaching);
+			if (detaching) detach_dev(if_block_anchor);
+			mounted = false;
+			run_all(dispose);
+		}
+	};
+
+	dispatch_dev("SvelteRegisterBlock", {
+		block,
+		id: create_if_block_1$1.name,
+		type: "if",
+		source: "(165:6) {#if paletteValues}",
+		ctx
+	});
+
+	return block;
+}
+
+// (181:6) {#if  paletteValues.adjustment_layer_update==="never"}
+function create_if_block_2(ctx) {
+	let t0;
+	let fds_image_editor_button;
+	let mounted;
+	let dispose;
+
+	const block = {
+		c: function create() {
+			t0 = text(" \n      \n      ");
+			fds_image_editor_button = element("fds-image-editor-button");
+			fds_image_editor_button.textContent = "Update Now";
+			set_custom_element_data(fds_image_editor_button, "type", "button");
+			set_custom_element_data(fds_image_editor_button, "state", "active");
+			add_location(fds_image_editor_button, file$1, 183, 6, 6725);
+		},
+		m: function mount(target, anchor) {
+			insert_dev(target, t0, anchor);
+			insert_dev(target, fds_image_editor_button, anchor);
+			/*fds_image_editor_button_binding*/ ctx[11](fds_image_editor_button);
+
+			if (!mounted) {
+				dispose = listen_dev(fds_image_editor_button, "click", /*executeAll*/ ctx[1], false, false, false, false);
+				mounted = true;
+			}
+		},
+		p: noop,
+		d: function destroy(detaching) {
+			if (detaching) detach_dev(t0);
+			if (detaching) detach_dev(fds_image_editor_button);
+			/*fds_image_editor_button_binding*/ ctx[11](null);
+			mounted = false;
+			dispose();
+		}
+	};
+
+	dispatch_dev("SvelteRegisterBlock", {
+		block,
+		id: create_if_block_2.name,
+		type: "if",
+		source: "(181:6) {#if  paletteValues.adjustment_layer_update===\\\"never\\\"}",
 		ctx
 	});
 
@@ -604,7 +802,7 @@ function create_fragment$1(ctx) {
 			div = element("div");
 			if_block.c();
 			this.c = noop;
-			add_location(div, file$1, 127, 0, 4353);
+			add_location(div, file$1, 142, 0, 5194);
 		},
 		l: function claim(nodes) {
 			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -653,10 +851,7 @@ function convertToMenuStructure(array) {
 		const itemKey = item.name.replace(/\s+/g, "").toLowerCase();
 
 		if (!menu[categoryKey]) {
-			menu[categoryKey] = {
-				name: item.category + " Options",
-				items: {}
-			};
+			menu[categoryKey] = { name: item.category, items: {} };
 		}
 
 		menu[categoryKey].items[itemKey] = {
@@ -692,8 +887,17 @@ function instance$1($$self, $$props, $$invalidate) {
 	let { layer = {} } = $$props;
 
 	onMount(async () => {
+		$$invalidate(2, paletteValues = globalThis.gyre.paletteValues);
+		if (!paletteValues.adjustment_layer_update) $$invalidate(2, paletteValues.adjustment_layer_update = "never", paletteValues);
 		refresh();
 	});
+
+	let observerID;
+
+	async function observerCallBack(changes) {
+		console.log("changes", changes);
+		await executeAll();
+	}
 
 	function openMenu() {
 		var contextMenu = window.document.createElement("fds-image-editor-menu");
@@ -709,17 +913,20 @@ function instance$1($$self, $$props, $$invalidate) {
 			$$invalidate(0, layer);
 			globalThis.gyre.layerManager.selectLayers([layer.id]);
 
+			if (globalThis.gyre.paletteValues.adjustment_layer_update && globalThis.gyre.paletteValues.adjustment_layer_update !== "never") {
+				observerID = globalThis.gyre.layerManager.observeChangesSameLevel(layer.id, observerCallBack, parseInt(globalThis.gyre.paletteValues.adjustment_layer_update));
+			}
+
 			// open dialog
 			openProperties();
-		}; //       
+		}; //      
 
 		document.body.append(contextMenu);
 	}
 
 	function openProperties() {
-		console.log("openProperties", layer);
-
 		globalThis.gyre.openDialogById(layer.workflowid, layer.formData, layer.workflowname, newData => {
+			console.log("new formdata");
 			$$invalidate(0, layer.formData = newData, layer);
 		});
 	}
@@ -781,6 +988,16 @@ function instance$1($$self, $$props, $$invalidate) {
 		menu = convertToMenuStructure(layerWFs);
 	}
 
+	function changeInterval(e) {
+		if (e.target.value === "never") {
+			globalThis.gyre.layerManager.deleteObserver(observerID);
+			return;
+		}
+
+		observerID = globalThis.gyre.layerManager.observeChangesSameLevel(layer.id, observerCallBack, parseInt(e.target.value));
+	}
+
+	let paletteValues;
 	let selectButton;
 	const writable_props = ['layer'];
 
@@ -791,21 +1008,26 @@ function instance$1($$self, $$props, $$invalidate) {
 	function fds_image_editor_button1_binding($$value) {
 		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			selectButton = $$value;
-			$$invalidate(2, selectButton);
+			$$invalidate(3, selectButton);
 		});
 	}
 
 	function fds_image_editor_button1_binding_1($$value) {
 		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			selectButton = $$value;
-			$$invalidate(2, selectButton);
+			$$invalidate(3, selectButton);
 		});
 	}
 
-	function fds_image_editor_button2_binding($$value) {
+	function select_change_handler() {
+		paletteValues.adjustment_layer_update = select_value(this);
+		$$invalidate(2, paletteValues);
+	}
+
+	function fds_image_editor_button_binding($$value) {
 		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			selectButton = $$value;
-			$$invalidate(2, selectButton);
+			$$invalidate(3, selectButton);
 		});
 	}
 
@@ -817,19 +1039,25 @@ function instance$1($$self, $$props, $$invalidate) {
 		onMount,
 		layer,
 		convertToMenuStructure,
+		observerID,
+		observerCallBack,
 		openMenu,
 		openProperties,
 		executeAll,
 		countResultImageUsage,
 		menu,
 		refresh,
+		changeInterval,
+		paletteValues,
 		selectButton
 	});
 
 	$$self.$inject_state = $$props => {
 		if ('layer' in $$props) $$invalidate(0, layer = $$props.layer);
+		if ('observerID' in $$props) observerID = $$props.observerID;
 		if ('menu' in $$props) menu = $$props.menu;
-		if ('selectButton' in $$props) $$invalidate(2, selectButton = $$props.selectButton);
+		if ('paletteValues' in $$props) $$invalidate(2, paletteValues = $$props.paletteValues);
+		if ('selectButton' in $$props) $$invalidate(3, selectButton = $$props.selectButton);
 	};
 
 	if ($$props && "$$inject" in $$props) {
@@ -839,13 +1067,16 @@ function instance$1($$self, $$props, $$invalidate) {
 	return [
 		layer,
 		executeAll,
+		paletteValues,
 		selectButton,
 		openMenu,
 		openProperties,
+		changeInterval,
 		refresh,
 		fds_image_editor_button1_binding,
 		fds_image_editor_button1_binding_1,
-		fds_image_editor_button2_binding
+		select_change_handler,
+		fds_image_editor_button_binding
 	];
 }
 
@@ -853,7 +1084,7 @@ class Dialog extends SvelteElement {
 	constructor(options) {
 		super();
 		const style = document.createElement('style');
-		style.textContent = `.icon{vertical-align:-10px}`;
+		style.textContent = `.icon{vertical-align:-10px}.formInput{display:inline-block;outline:0;border:0;border-bottom:2px solid rgba(255, 255, 255, 0.2);margin-bottom:10px;padding:5px;font-size:14px;font-weight:normal;border-radius:3px;color:rgba(255, 255, 255, 0.9);font-family:system-ui, 'Segoe UI', Roboto;background:black}`;
 		this.shadowRoot.appendChild(style);
 
 		init(
@@ -866,7 +1097,7 @@ class Dialog extends SvelteElement {
 			instance$1,
 			create_fragment$1,
 			safe_not_equal,
-			{ layer: 0, executeAll: 1, refresh: 5 },
+			{ layer: 0, executeAll: 1, refresh: 7 },
 			null
 		);
 
@@ -904,7 +1135,7 @@ class Dialog extends SvelteElement {
 	}
 
 	get refresh() {
-		return this.$$.ctx[5];
+		return this.$$.ctx[7];
 	}
 
 	set refresh(value) {
@@ -939,9 +1170,9 @@ function create_if_block(ctx) {
 			if_block_anchor = empty();
 			if (!src_url_equal(img.src, img_src_value = /*layer*/ ctx[0].url)) attr_dev(img, "src", img_src_value);
 			attr_dev(img, "style", img_style_value = "width:" + /*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px");
-			add_location(img, file, 174, 4, 5568);
+			add_location(img, file, 174, 4, 5572);
 			attr_dev(div, "style", div_style_value = "" + (/*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px; position: relative"));
-			add_location(div, file, 172, 4, 5452);
+			add_location(div, file, 172, 4, 5456);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, div, anchor);
@@ -1002,11 +1233,11 @@ function create_if_block_1(ctx) {
 		c: function create() {
 			div = element("div");
 			fds_image_editor_progress_bar = element("fds-image-editor-progress-bar");
-			add_location(fds_image_editor_progress_bar, file, 176, 66, 5710);
+			add_location(fds_image_editor_progress_bar, file, 176, 66, 5714);
 			set_style(div, "position", "absolute");
 			set_style(div, "left", "0");
 			set_style(div, "top", "0");
-			add_location(div, file, 176, 22, 5666);
+			add_location(div, file, 176, 22, 5670);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, div, anchor);
@@ -1136,7 +1367,6 @@ function instance($$self, $$props, $$invalidate) {
 	let { layer = {} } = $$props;
 
 	function refresh() {
-		console.log("UPDATE");
 		$$invalidate(0, layer);
 	}
 
@@ -1167,6 +1397,7 @@ function instance($$self, $$props, $$invalidate) {
 	let mergedImageURL;
 
 	async function execute() {
+		if (!layer.formData) return;
 		let gyre = globalThis.gyre;
 		let layers = gyre.layerManager.getLayersSameLevel(layer.id);
 		if (!layers || layers.length === 1) return; // nothing below adjustment layer -> do nothing

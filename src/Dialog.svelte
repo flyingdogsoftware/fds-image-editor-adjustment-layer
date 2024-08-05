@@ -6,6 +6,8 @@
   export let layer = {}
 
   onMount(async () => {
+    paletteValues=globalThis.gyre.paletteValues
+    if (!paletteValues.adjustment_layer_update) paletteValues.adjustment_layer_update="never"
     refresh()
 	})
    /**
@@ -19,7 +21,7 @@
       const itemKey = item.name.replace(/\s+/g, "").toLowerCase()
       if (!menu[categoryKey]) {
         menu[categoryKey] = {
-          name: item.category + " Options",
+          name: item.category,
           items: {},
         };
       }
@@ -31,7 +33,11 @@
     })
     return menu
   }
-
+  let observerID
+  async function observerCallBack(changes) {
+    console.log("changes",changes)
+    await executeAll()
+  }
   function openMenu() {
     var contextMenu = window.document.createElement("fds-image-editor-menu");
     contextMenu.menu = menu;
@@ -44,15 +50,17 @@
         layer.name=item.name
         layer=layer        
         globalThis.gyre.layerManager.selectLayers([layer.id])
+        if (globalThis.gyre.paletteValues.adjustment_layer_update && globalThis.gyre.paletteValues.adjustment_layer_update!=="never") {
+          observerID=globalThis.gyre.layerManager.observeChangesSameLevel(layer.id,observerCallBack,parseInt(globalThis.gyre.paletteValues.adjustment_layer_update))
+        }
         // open dialog
         openProperties()
-//       
+//      
     }
     document.body.append(contextMenu)
   }
   function openProperties() {
-    console.log("openProperties",layer)
-    globalThis.gyre.openDialogById(layer.workflowid,layer.formData,layer.workflowname,(newData) => { layer.formData=newData;})
+    globalThis.gyre.openDialogById(layer.workflowid,layer.formData,layer.workflowname,(newData) => { console.log("new formdata"); layer.formData=newData;})
   }
   export async function executeAll() {
     let gyre=globalThis.gyre
@@ -118,48 +126,88 @@
       })
     menu = convertToMenuStructure(layerWFs)
   }
+  function changeInterval(e) {
+    if (e.target.value==="never") {
+      globalThis.gyre.layerManager.deleteObserver(observerID)
+      return
+    }
+    observerID=globalThis.gyre.layerManager.observeChangesSameLevel(layer.id,observerCallBack,parseInt(e.target.value))
 
+  }
 
-
+ let paletteValues
   let selectButton
 
 </script>
 
 <div>
   {#if !layer.workflowid}
-  <fds-image-editor-button icon="fds-image-editor-adjustment-layer-icon" type="icon" class="icon"></fds-image-editor-button>
-
-    Adjustment Layer:
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <fds-image-editor-button
-      type="button"
-      on:click={openMenu}
-      bind:this={selectButton}>Select Workflow...</fds-image-editor-button
-    >
-    {:else}
     <fds-image-editor-button icon="fds-image-editor-adjustment-layer-icon" type="icon" class="icon"></fds-image-editor-button>
 
-    Adjustment Layer:
-    {layer.workflowname} 
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <fds-image-editor-button
-      type="button"
-      on:click={openProperties}
-      bind:this={selectButton}>Properties...</fds-image-editor-button
-    >    
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <fds-image-editor-button
-      type="button"
-      state="active"
-      on:click={executeAll}
-      bind:this={selectButton}>Update Layers</fds-image-editor-button
-    >        
+      Adjustment Layer:
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <fds-image-editor-button
+        type="button"
+        on:click={openMenu}
+        bind:this={selectButton}>Select Workflow...</fds-image-editor-button
+      >
+   {:else}
+      <fds-image-editor-button icon="fds-image-editor-adjustment-layer-icon" type="icon" class="icon"></fds-image-editor-button>
 
+      Adjustment Layer:
+      {layer.workflowname} 
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <fds-image-editor-button
+        type="button"
+        on:click={openProperties}
+        bind:this={selectButton}>Properties...</fds-image-editor-button
+      >    
+      {#if paletteValues}
+        &nbsp; Update-Intervall: <select
+        class="formInput"
+        on:change={changeInterval}
+        bind:value={paletteValues.adjustment_layer_update}
+        name="adjustment_layer_update"
+      >
+        <option value="never">never</option>
+        <option value="250">250ms</option>
+        <option value="500">500ms</option>
+        <option value="1000">1s</option>
+        <option value="2000">2s</option>
+        <option value="5000">5s</option>
+        <option value="10000">10s</option>
+      </select>
+
+      {#if  paletteValues.adjustment_layer_update==="never"}
+      &nbsp;
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <fds-image-editor-button
+        type="button"
+        state="active"
+        on:click={executeAll}
+        bind:this={selectButton}>Update Now</fds-image-editor-button
+      >        
+      {/if}
+    {/if}
   {/if}
-  
+
 </div>
 <style>
   .icon {
     vertical-align: -10px;
   }
+  .formInput {
+        display:inline-block;
+        outline: 0;
+        border: 0;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 10px;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: normal;
+        border-radius: 3px;
+        color: rgba(255, 255, 255, 0.9);
+        font-family: system-ui, 'Segoe UI', Roboto;
+        background: black;
+    }  
 </style>

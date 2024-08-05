@@ -23,7 +23,6 @@
     export let layer={} 
 
     export function refresh() {
-      console.log("UPDATE")
         layer=layer
     }
 
@@ -81,6 +80,7 @@
     }
     let mergedImageURL
   export async function execute() {
+    if (!layer.formData) return
     let gyre = globalThis.gyre;
 
     let layers = gyre.layerManager.getLayersSameLevel(layer.id);
