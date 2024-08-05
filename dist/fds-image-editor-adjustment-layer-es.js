@@ -451,7 +451,7 @@ function validate_slots(name, slot, keys) {
 const { console: console_1$1 } = globals;
 const file$1 = "src/Dialog.svelte";
 
-// (116:4) {:else}
+// (139:4) {:else}
 function create_else_block(ctx) {
 	let fds_image_editor_button0;
 	let t0;
@@ -478,12 +478,12 @@ function create_else_block(ctx) {
 			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
 			set_custom_element_data(fds_image_editor_button0, "type", "icon");
 			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-			add_location(fds_image_editor_button0, file$1, 116, 4, 3490);
+			add_location(fds_image_editor_button0, file$1, 139, 4, 4766);
 			set_custom_element_data(fds_image_editor_button1, "type", "button");
-			add_location(fds_image_editor_button1, file$1, 121, 4, 3727);
+			add_location(fds_image_editor_button1, file$1, 144, 4, 5003);
 			set_custom_element_data(fds_image_editor_button2, "type", "button");
 			set_custom_element_data(fds_image_editor_button2, "state", "active");
-			add_location(fds_image_editor_button2, file$1, 127, 4, 3949);
+			add_location(fds_image_editor_button2, file$1, 150, 4, 5225);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, fds_image_editor_button0, anchor);
@@ -527,14 +527,14 @@ function create_else_block(ctx) {
 		block,
 		id: create_else_block.name,
 		type: "else",
-		source: "(116:4) {:else}",
+		source: "(139:4) {:else}",
 		ctx
 	});
 
 	return block;
 }
 
-// (106:2) {#if !layer.workflowid}
+// (129:2) {#if !layer.workflowid}
 function create_if_block$1(ctx) {
 	let fds_image_editor_button0;
 	let t0;
@@ -551,9 +551,9 @@ function create_if_block$1(ctx) {
 			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
 			set_custom_element_data(fds_image_editor_button0, "type", "icon");
 			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-			add_location(fds_image_editor_button0, file$1, 106, 2, 3111);
+			add_location(fds_image_editor_button0, file$1, 129, 2, 4387);
 			set_custom_element_data(fds_image_editor_button1, "type", "button");
-			add_location(fds_image_editor_button1, file$1, 110, 4, 3322);
+			add_location(fds_image_editor_button1, file$1, 133, 4, 4598);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, fds_image_editor_button0, anchor);
@@ -581,7 +581,7 @@ function create_if_block$1(ctx) {
 		block,
 		id: create_if_block$1.name,
 		type: "if",
-		source: "(106:2) {#if !layer.workflowid}",
+		source: "(129:2) {#if !layer.workflowid}",
 		ctx
 	});
 
@@ -604,7 +604,7 @@ function create_fragment$1(ctx) {
 			div = element("div");
 			if_block.c();
 			this.c = noop;
-			add_location(div, file$1, 104, 0, 3077);
+			add_location(div, file$1, 127, 0, 4353);
 		},
 		l: function claim(nodes) {
 			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -666,6 +666,24 @@ function convertToMenuStructure(array) {
 	});
 
 	return menu;
+}
+
+// helper function see below
+function countResultImageUsage(data) {
+	let count = 0;
+
+	for (let key in data.mappings) {
+		// eslint-disable-next-line no-prototype-builtins
+		if (data.mappings.hasOwnProperty(key)) {
+			data.mappings[key].forEach(mapping => {
+				if (mapping.fromField === "resultImage") {
+					count++;
+				}
+			});
+		}
+	}
+
+	return count;
 }
 
 function instance$1($$self, $$props, $$invalidate) {
@@ -735,6 +753,19 @@ function instance$1($$self, $$props, $$invalidate) {
 			if (!gyreobj.tags || !gyreobj.tags.includes("LayerMenu")) return false;
 			if (gyreobj.tags && gyreobj.tags.includes("Deactivated")) return false;
 			if (!gyreobj.category) gyreobj.category = "Other";
+
+			// needs currentLayer (= merged images of all layers below here)
+			if (!gyre.ComfyUI.checkFormElement(gyreobj.workflowid, "layer_image", "currentLayer")) return false;
+
+			// layer below or above can not work here
+			if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid, "layer_image", "nextLayer")) return false;
+
+			if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid, "layer_image", "layerBelow")) return false;
+			if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid, "layer_image", "previousLayer")) return false;
+			if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid, "layer_image", "layerAbove")) return false;
+			if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid, "drop_layers")) return false; // support later
+			let num = countResultImageUsage(gyreobj);
+			if (num !== 1) return false; // only one result image is allowed here
 			return true;
 		}).map(el => {
 			let gyreobj = JSON.parse(el.json).extra.gyre;
@@ -789,6 +820,7 @@ function instance$1($$self, $$props, $$invalidate) {
 		openMenu,
 		openProperties,
 		executeAll,
+		countResultImageUsage,
 		menu,
 		refresh,
 		selectButton

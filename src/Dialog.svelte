@@ -69,8 +69,21 @@
     }
   }
 
-
-  
+  // helper function see below
+  function countResultImageUsage(data) {
+    let count = 0
+    for (let key in data.mappings) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (data.mappings.hasOwnProperty(key)) {
+        data.mappings[key].forEach(mapping => {
+          if (mapping.fromField === "resultImage") {
+            count++
+          }
+        })
+      }
+    }
+    return count
+  }
 
   let menu = {};
   export function refresh() {
@@ -83,7 +96,17 @@
         if (!gyreobj.tags || !gyreobj.tags.includes("LayerMenu")) return false
         if (gyreobj.tags && gyreobj.tags.includes("Deactivated")) return false
         if (!gyreobj.category) gyreobj.category = "Other"
-        return true;
+        // needs currentLayer (= merged images of all layers below here)
+        if (!gyre.ComfyUI.checkFormElement(gyreobj.workflowid,"layer_image","currentLayer")) return false
+        // layer below or above can not work here
+        if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid,"layer_image","nextLayer")) return false
+        if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid,"layer_image","layerBelow")) return false
+        if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid,"layer_image","previousLayer")) return false
+        if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid,"layer_image","layerAbove")) return false
+        if (gyre.ComfyUI.checkFormElement(gyreobj.workflowid,"drop_layers")) return false // support later
+        let num=countResultImageUsage(gyreobj)
+        if (num!==1) return false // only one result image is allowed here
+        return true
       }).map((el) => {
         let gyreobj = JSON.parse(el.json).extra.gyre;
         return {
