@@ -1150,7 +1150,7 @@ customElements.define("fds-image-editor-adjustment-layer-toolbar", Dialog);
 const { console: console_1 } = globals;
 const file = "src/App.svelte";
 
-// (172:0) {#if layer.url}
+// (177:0) {#if layer.url}
 function create_if_block(ctx) {
 	let div;
 	let img;
@@ -1170,9 +1170,9 @@ function create_if_block(ctx) {
 			if_block_anchor = empty();
 			if (!src_url_equal(img.src, img_src_value = /*layer*/ ctx[0].url)) attr_dev(img, "src", img_src_value);
 			attr_dev(img, "style", img_style_value = "width:" + /*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px");
-			add_location(img, file, 174, 4, 5572);
+			add_location(img, file, 179, 4, 5785);
 			attr_dev(div, "style", div_style_value = "" + (/*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px; position: relative"));
-			add_location(div, file, 172, 4, 5456);
+			add_location(div, file, 177, 4, 5669);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, div, anchor);
@@ -1217,14 +1217,14 @@ function create_if_block(ctx) {
 		block,
 		id: create_if_block.name,
 		type: "if",
-		source: "(172:0) {#if layer.url}",
+		source: "(177:0) {#if layer.url}",
 		ctx
 	});
 
 	return block;
 }
 
-// (177:4) {#if showProgress}
+// (182:4) {#if showProgress}
 function create_if_block_1(ctx) {
 	let div;
 	let fds_image_editor_progress_bar;
@@ -1233,11 +1233,11 @@ function create_if_block_1(ctx) {
 		c: function create() {
 			div = element("div");
 			fds_image_editor_progress_bar = element("fds-image-editor-progress-bar");
-			add_location(fds_image_editor_progress_bar, file, 176, 66, 5714);
+			add_location(fds_image_editor_progress_bar, file, 181, 66, 5927);
 			set_style(div, "position", "absolute");
 			set_style(div, "left", "0");
 			set_style(div, "top", "0");
-			add_location(div, file, 176, 22, 5670);
+			add_location(div, file, 181, 22, 5883);
 		},
 		m: function mount(target, anchor) {
 			insert_dev(target, div, anchor);
@@ -1252,7 +1252,7 @@ function create_if_block_1(ctx) {
 		block,
 		id: create_if_block_1.name,
 		type: "if",
-		source: "(177:4) {#if showProgress}",
+		source: "(182:4) {#if showProgress}",
 		ctx
 	});
 
@@ -1351,7 +1351,13 @@ async function mergeLayers(layers, canvasObject) {
 	for (let i = layers.length - 1; i >= 0; i--) {
 		const layer = layers[i];
 		const img = await loadImage(layer.url);
-		context.drawImage(img, layer.x, layer.y, layer.width, layer.height);
+
+		if (layer.canvas) {
+			console.log("getting canvas from " + layer.name);
+			context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height);
+		} else {
+			context.drawImage(img, layer.x, layer.y, layer.width, layer.height);
+		}
 	}
 
 	// Convert the off-screen canvas to a data URL and return it

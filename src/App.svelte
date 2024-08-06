@@ -161,7 +161,12 @@
     for (let i = layers.length - 1; i >= 0; i--) {
       const layer = layers[i];
       const img = await loadImage(layer.url);
-      context.drawImage(img, layer.x, layer.y, layer.width, layer.height);
+      if (layer.canvas) {
+        console.log("getting canvas from "+layer.name)
+        context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height);
+      } else {
+        context.drawImage(img, layer.x, layer.y, layer.width, layer.height);
+      }
     }
 
     // Convert the off-screen canvas to a data URL and return it
