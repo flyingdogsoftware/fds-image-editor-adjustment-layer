@@ -470,7 +470,7 @@ var app = (function () {
     const { console: console_1$1 } = globals;
     const file$1 = "src/Dialog.svelte";
 
-    // (154:3) {:else}
+    // (155:3) {:else}
     function create_else_block(ctx) {
     	let fds_image_editor_button0;
     	let t0;
@@ -479,6 +479,12 @@ var app = (function () {
     	let t2;
     	let fds_image_editor_button1;
     	let t4;
+    	let select;
+    	let option0;
+    	let option1;
+    	let option2;
+    	let option3;
+    	let t9;
     	let if_block_anchor;
     	let mounted;
     	let dispose;
@@ -492,15 +498,41 @@ var app = (function () {
     			t2 = space();
     			fds_image_editor_button1 = element("fds-image-editor-button");
     			fds_image_editor_button1.textContent = "Properties...";
-    			t4 = space();
+    			t4 = text("    \n\n        \n      ");
+    			select = element("select");
+    			option0 = element("option");
+    			option0.textContent = "All layers below";
+    			option1 = element("option");
+    			option1.textContent = "1";
+    			option2 = element("option");
+    			option2.textContent = "2";
+    			option3 = element("option");
+    			option3.textContent = "3";
+    			t9 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
     			set_custom_element_data(fds_image_editor_button0, "type", "icon");
     			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-    			add_location(fds_image_editor_button0, file$1, 154, 6, 5624);
+    			add_location(fds_image_editor_button0, file$1, 155, 6, 5670);
     			set_custom_element_data(fds_image_editor_button1, "type", "button");
-    			add_location(fds_image_editor_button1, file$1, 159, 6, 5869);
+    			add_location(fds_image_editor_button1, file$1, 160, 6, 5915);
+    			option0.__value = "all";
+    			option0.value = option0.__value;
+    			add_location(option0, file$1, 172, 6, 6203);
+    			option1.__value = "1";
+    			option1.value = option1.__value;
+    			add_location(option1, file$1, 173, 6, 6255);
+    			option2.__value = "2";
+    			option2.value = option2.__value;
+    			add_location(option2, file$1, 174, 6, 6290);
+    			option3.__value = "3";
+    			option3.value = option3.__value;
+    			add_location(option3, file$1, 175, 6, 6325);
+    			attr_dev(select, "class", "formInput");
+    			attr_dev(select, "name", "num_layers");
+    			if (/*layer*/ ctx[0].mergeNum === void 0) add_render_callback(() => /*select_change_handler*/ ctx[10].call(select));
+    			add_location(select, file$1, 167, 6, 6101);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, fds_image_editor_button0, anchor);
@@ -510,16 +542,31 @@ var app = (function () {
     			insert_dev(target, fds_image_editor_button1, anchor);
     			/*fds_image_editor_button1_binding_1*/ ctx[9](fds_image_editor_button1);
     			insert_dev(target, t4, anchor);
+    			insert_dev(target, select, anchor);
+    			append_dev(select, option0);
+    			append_dev(select, option1);
+    			append_dev(select, option2);
+    			append_dev(select, option3);
+    			select_option(select, /*layer*/ ctx[0].mergeNum, true);
+    			insert_dev(target, t9, anchor);
     			if (if_block) if_block.m(target, anchor);
     			insert_dev(target, if_block_anchor, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(fds_image_editor_button1, "click", /*openProperties*/ ctx[5], false, false, false, false);
+    				dispose = [
+    					listen_dev(fds_image_editor_button1, "click", /*openProperties*/ ctx[5], false, false, false, false),
+    					listen_dev(select, "change", /*select_change_handler*/ ctx[10])
+    				];
+
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*layer*/ 1 && t1_value !== (t1_value = /*layer*/ ctx[0].workflowname + "")) set_data_dev(t1, t1_value);
+
+    			if (dirty & /*layer*/ 1) {
+    				select_option(select, /*layer*/ ctx[0].mergeNum);
+    			}
 
     			if (/*paletteValues*/ ctx[2]) {
     				if (if_block) {
@@ -542,10 +589,12 @@ var app = (function () {
     			if (detaching) detach_dev(fds_image_editor_button1);
     			/*fds_image_editor_button1_binding_1*/ ctx[9](null);
     			if (detaching) detach_dev(t4);
+    			if (detaching) detach_dev(select);
+    			if (detaching) detach_dev(t9);
     			if (if_block) if_block.d(detaching);
     			if (detaching) detach_dev(if_block_anchor);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -553,14 +602,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(154:3) {:else}",
+    		source: "(155:3) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (144:2) {#if !layer.workflowid}
+    // (145:2) {#if !layer.workflowid}
     function create_if_block$1(ctx) {
     	let fds_image_editor_button0;
     	let t0;
@@ -577,9 +626,9 @@ var app = (function () {
     			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
     			set_custom_element_data(fds_image_editor_button0, "type", "icon");
     			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-    			add_location(fds_image_editor_button0, file$1, 144, 4, 5230);
+    			add_location(fds_image_editor_button0, file$1, 145, 4, 5276);
     			set_custom_element_data(fds_image_editor_button1, "type", "button");
-    			add_location(fds_image_editor_button1, file$1, 148, 6, 5447);
+    			add_location(fds_image_editor_button1, file$1, 149, 6, 5493);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, fds_image_editor_button0, anchor);
@@ -607,14 +656,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(144:2) {#if !layer.workflowid}",
+    		source: "(145:2) {#if !layer.workflowid}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (165:6) {#if paletteValues}
+    // (180:6) {#if paletteValues}
     function create_if_block_1$1(ctx) {
     	let t0;
     	let select;
@@ -633,10 +682,10 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			t0 = text("  Update-Intervall: ");
+    			t0 = text("   ");
     			select = element("select");
     			option0 = element("option");
-    			option0.textContent = "never";
+    			option0.textContent = "No auto update";
     			option1 = element("option");
     			option1.textContent = "250ms";
     			option2 = element("option");
@@ -654,29 +703,29 @@ var app = (function () {
     			if_block_anchor = empty();
     			option0.__value = "never";
     			option0.value = option0.__value;
-    			add_location(option0, file$1, 171, 8, 6276);
+    			add_location(option0, file$1, 186, 8, 6595);
     			option1.__value = "250";
     			option1.value = option1.__value;
-    			add_location(option1, file$1, 172, 8, 6321);
+    			add_location(option1, file$1, 187, 8, 6649);
     			option2.__value = "500";
     			option2.value = option2.__value;
-    			add_location(option2, file$1, 173, 8, 6364);
+    			add_location(option2, file$1, 188, 8, 6692);
     			option3.__value = "1000";
     			option3.value = option3.__value;
-    			add_location(option3, file$1, 174, 8, 6407);
+    			add_location(option3, file$1, 189, 8, 6735);
     			option4.__value = "2000";
     			option4.value = option4.__value;
-    			add_location(option4, file$1, 175, 8, 6448);
+    			add_location(option4, file$1, 190, 8, 6776);
     			option5.__value = "5000";
     			option5.value = option5.__value;
-    			add_location(option5, file$1, 176, 8, 6489);
+    			add_location(option5, file$1, 191, 8, 6817);
     			option6.__value = "10000";
     			option6.value = option6.__value;
-    			add_location(option6, file$1, 177, 8, 6530);
+    			add_location(option6, file$1, 192, 8, 6858);
     			attr_dev(select, "class", "formInput");
     			attr_dev(select, "name", "adjustment_layer_update");
-    			if (/*paletteValues*/ ctx[2].adjustment_layer_update === void 0) add_render_callback(() => /*select_change_handler*/ ctx[10].call(select));
-    			add_location(select, file$1, 165, 33, 6093);
+    			if (/*paletteValues*/ ctx[2].adjustment_layer_update === void 0) add_render_callback(() => /*select_change_handler_1*/ ctx[11].call(select));
+    			add_location(select, file$1, 180, 16, 6412);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -696,7 +745,7 @@ var app = (function () {
     			if (!mounted) {
     				dispose = [
     					listen_dev(select, "change", /*changeInterval*/ ctx[6], false, false, false, false),
-    					listen_dev(select, "change", /*select_change_handler*/ ctx[10])
+    					listen_dev(select, "change", /*select_change_handler_1*/ ctx[11])
     				];
 
     				mounted = true;
@@ -735,14 +784,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(165:6) {#if paletteValues}",
+    		source: "(180:6) {#if paletteValues}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (181:6) {#if  paletteValues.adjustment_layer_update==="never"}
+    // (196:6) {#if  paletteValues.adjustment_layer_update==="never"}
     function create_if_block_2(ctx) {
     	let t0;
     	let fds_image_editor_button;
@@ -756,12 +805,12 @@ var app = (function () {
     			fds_image_editor_button.textContent = "Update Now";
     			set_custom_element_data(fds_image_editor_button, "type", "button");
     			set_custom_element_data(fds_image_editor_button, "state", "active");
-    			add_location(fds_image_editor_button, file$1, 183, 6, 6725);
+    			add_location(fds_image_editor_button, file$1, 198, 6, 7053);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
     			insert_dev(target, fds_image_editor_button, anchor);
-    			/*fds_image_editor_button_binding*/ ctx[11](fds_image_editor_button);
+    			/*fds_image_editor_button_binding*/ ctx[12](fds_image_editor_button);
 
     			if (!mounted) {
     				dispose = listen_dev(fds_image_editor_button, "click", /*executeAll*/ ctx[1], false, false, false, false);
@@ -772,7 +821,7 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
     			if (detaching) detach_dev(fds_image_editor_button);
-    			/*fds_image_editor_button_binding*/ ctx[11](null);
+    			/*fds_image_editor_button_binding*/ ctx[12](null);
     			mounted = false;
     			dispose();
     		}
@@ -782,7 +831,7 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(181:6) {#if  paletteValues.adjustment_layer_update===\\\"never\\\"}",
+    		source: "(196:6) {#if  paletteValues.adjustment_layer_update===\\\"never\\\"}",
     		ctx
     	});
 
@@ -805,7 +854,7 @@ var app = (function () {
     			div = element("div");
     			if_block.c();
     			this.c = noop;
-    			add_location(div, file$1, 142, 0, 5194);
+    			add_location(div, file$1, 143, 0, 5240);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -892,6 +941,7 @@ var app = (function () {
     	onMount(async () => {
     		$$invalidate(2, paletteValues = globalThis.gyre.paletteValues);
     		if (!paletteValues.adjustment_layer_update) $$invalidate(2, paletteValues.adjustment_layer_update = "never", paletteValues);
+    		if (!layer.mergeNum) $$invalidate(0, layer.mergeNum = "all", layer);
     		refresh();
     	});
 
@@ -1023,6 +1073,11 @@ var app = (function () {
     	}
 
     	function select_change_handler() {
+    		layer.mergeNum = select_value(this);
+    		$$invalidate(0, layer);
+    	}
+
+    	function select_change_handler_1() {
     		paletteValues.adjustment_layer_update = select_value(this);
     		$$invalidate(2, paletteValues);
     	}
@@ -1079,6 +1134,7 @@ var app = (function () {
     		fds_image_editor_button1_binding,
     		fds_image_editor_button1_binding_1,
     		select_change_handler,
+    		select_change_handler_1,
     		fds_image_editor_button_binding
     	];
     }
@@ -1153,7 +1209,7 @@ var app = (function () {
     const { console: console_1 } = globals;
     const file = "src/App.svelte";
 
-    // (177:0) {#if layer.url}
+    // (179:0) {#if layer.url}
     function create_if_block(ctx) {
     	let div;
     	let img;
@@ -1173,9 +1229,9 @@ var app = (function () {
     			if_block_anchor = empty();
     			if (!src_url_equal(img.src, img_src_value = /*layer*/ ctx[0].url)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "style", img_style_value = "width:" + /*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px");
-    			add_location(img, file, 179, 4, 5785);
+    			add_location(img, file, 181, 4, 5775);
     			attr_dev(div, "style", div_style_value = "" + (/*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px; position: relative"));
-    			add_location(div, file, 177, 4, 5669);
+    			add_location(div, file, 179, 4, 5659);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1220,14 +1276,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(177:0) {#if layer.url}",
+    		source: "(179:0) {#if layer.url}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (182:4) {#if showProgress}
+    // (184:4) {#if showProgress}
     function create_if_block_1(ctx) {
     	let div;
     	let fds_image_editor_progress_bar;
@@ -1236,11 +1292,11 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			fds_image_editor_progress_bar = element("fds-image-editor-progress-bar");
-    			add_location(fds_image_editor_progress_bar, file, 181, 66, 5927);
+    			add_location(fds_image_editor_progress_bar, file, 183, 66, 5917);
     			set_style(div, "position", "absolute");
     			set_style(div, "left", "0");
     			set_style(div, "top", "0");
-    			add_location(div, file, 181, 22, 5883);
+    			add_location(div, file, 183, 22, 5873);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1255,7 +1311,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(182:4) {#if showProgress}",
+    		source: "(184:4) {#if showProgress}",
     		ctx
     	});
 
@@ -1343,7 +1399,6 @@ var app = (function () {
     	function loadImage(url) {
     		return new Promise((resolve, reject) => {
     				const img = new Image();
-    				img.crossOrigin = "Anonymous"; // This is important if images are from different origins
     				img.onload = () => resolve(img);
     				img.onerror = reject;
     				img.src = url;
@@ -1351,12 +1406,13 @@ var app = (function () {
     	}
 
     	// Iterate over the layers starting from the bottom layer
-    	for (let i = layers.length - 1; i >= 0; i--) {
+    	let start = layers.length - 1; // all layers below
+
+    	for (let i = start; i >= 0; i--) {
     		const layer = layers[i];
     		const img = await loadImage(layer.url);
 
     		if (layer.canvas) {
-    			console.log("getting canvas from " + layer.name);
     			context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height);
     		} else {
     			context.drawImage(img, layer.x, layer.y, layer.width, layer.height);
@@ -1418,6 +1474,10 @@ var app = (function () {
 
     			if (l.id === layer.id) break;
     			if (l.url && l.visible) list.unshift(l);
+    		}
+
+    		if (layer.mergeNum !== "all" && list.length > layer.mergeNum) {
+    			list = list.slice(0, layer.mergeNum);
     		}
 
     		$$invalidate(3, showProgress = true);

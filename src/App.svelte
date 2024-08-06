@@ -92,7 +92,9 @@
         if (l.id === layer.id) break;
         if (l.url && l.visible) list.unshift(l);
     }
-
+    if (layer.mergeNum!=="all" && list.length > layer.mergeNum) {
+      list = list.slice(0, layer.mergeNum)
+    }
     showProgress = true;
     await tick();
 
@@ -138,10 +140,10 @@
 
   async function mergeLayers(layers, canvasObject) {
     // Create an off-screen canvas
-    const offScreenCanvas = window.document.createElement('canvas');
-    offScreenCanvas.width = canvasObject.width;
-    offScreenCanvas.height = canvasObject.height;
-    const context = offScreenCanvas.getContext('2d');
+    const offScreenCanvas = window.document.createElement('canvas')
+    offScreenCanvas.width = canvasObject.width
+    offScreenCanvas.height = canvasObject.height
+    const context = offScreenCanvas.getContext('2d')
 
     // Clear the off-screen canvas
     context.clearRect(0, 0, offScreenCanvas.width, offScreenCanvas.height);
@@ -149,23 +151,23 @@
     // Load an image from a URL
     function loadImage(url) {
       return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = "Anonymous"; // This is important if images are from different origins
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = url;
-      });
+        const img = new Image()
+        img.onload = () => resolve(img)
+        img.onerror = reject
+        img.src = url
+      })
     }
 
     // Iterate over the layers starting from the bottom layer
-    for (let i = layers.length - 1; i >= 0; i--) {
-      const layer = layers[i];
-      const img = await loadImage(layer.url);
+    let start=layers.length - 1 // all layers below
+
+    for (let i = start; i >= 0; i--) {
+      const layer = layers[i]
+      const img = await loadImage(layer.url)
       if (layer.canvas) {
-        console.log("getting canvas from "+layer.name)
-        context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height);
+        context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height)
       } else {
-        context.drawImage(img, layer.x, layer.y, layer.width, layer.height);
+        context.drawImage(img, layer.x, layer.y, layer.width, layer.height)
       }
     }
 

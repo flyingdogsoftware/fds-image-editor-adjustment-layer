@@ -13,8 +13,8 @@
 
     <link href='https://fonts.googleapis.com/css?family=Montez|Lobster|Josefin+Sans|Shadows+Into+Light|Pacifico|Amatic+SC:700|Orbitron:400,900|Rokkitt|Righteous|Dancing+Script:700|Bangers|Chewy|Sigmar+One|Architects+Daughter|Abril+Fatface|Covered+By+Your+Grace|Kaushan+Script|Gloria+Hallelujah|Satisfy|Lobster+Two:700|Comfortaa:700|Cinzel|Courgette' rel='stylesheet' type='text/css'  data-noprefix>
     <script src="https://flyingdogsoftware.github.io/gyre-ui-dist/dist/node_modules/%40fds-components/fds-ai-image-editor/dist/fds-ai-image-editor.js?1"></script>
-<!--     <script src="https://flyingdogsoftware.github.io/gyre-ui-dist/dist/fds-image-editor-canvas.js"></script> --> 
-    <script src="http://localhost:3333/fds-image-editor-canvas.js"></script>
+    <script src="https://flyingdogsoftware.github.io/gyre-ui-dist/dist/fds-image-editor-canvas.js"></script> 
+ <!--    <script src="http://localhost:3333/fds-image-editor-canvas.js"></script>--> 
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <style>
@@ -56,7 +56,6 @@
 
     <fds-image-editor-adjustment-layer-toolbar id="toolbar" ></fds-image-editor-adjustment-layer-toolbar>
 
-<button id="render">Prepare for AI</button><br>
 
 <div style="position: relative" id="adjustment_layer_container">
     <fds-image-editor-adjustment-layer width="500" height="500" id="adjustmentLayer"></fds-image-editor-adjustment-layer>
@@ -84,21 +83,10 @@
             editor.layer=values.selectedLayer
             editor.refresh()
         })        
-        let button=document.getElementById("render")
-         button.addEventListener("click",async () => {
-            // set document width
-            globalThis.gyre.canvas.width=512
-            globalThis.gyre.canvas.height=512
-            // normally set by main app, just for testing:
-            let resultLayer={width:512,height:512,_width:512,_height:512,x:0,y:0,generate:{targetWidth:512,targetHeight:512},specialLayersImageInfo:[]}
-            await editor.prepareForAI(resultLayer)
-            let info=resultLayer.specialLayersImageInfo[0]
-            let test=document.getElementById("test")
-            test.src="data:image/png;base64,"+info.base64
-        })
+
         
         setTimeout(async () => {
-            await window.postMessageAdapter.init('http://127.0.0.1:8188')
+            await window.postMessageAdapter.init('http://127.0.0.1:8188') // points to ComfyUI you might want to change it 
             globalThis.gyre.paletteValues.serverFeatures.workflowList= globalThis.gyre.ComfyUI.workflowList
             globalThis.gyre.paletteValues.Config={generalConfig:{}}
             // directly set icon with prefix (usually added automatically because of plugin)

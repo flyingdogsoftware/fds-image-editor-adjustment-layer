@@ -8,6 +8,7 @@
   onMount(async () => {
     paletteValues=globalThis.gyre.paletteValues
     if (!paletteValues.adjustment_layer_update) paletteValues.adjustment_layer_update="never"
+    if (!layer.mergeNum) layer.mergeNum="all"
     refresh()
 	})
    /**
@@ -162,14 +163,28 @@
         on:click={openProperties}
         bind:this={selectButton}>Properties...</fds-image-editor-button
       >    
+
+      &nbsp; 
+      <select
+      class="formInput"
+      bind:value={layer.mergeNum}
+      name="num_layers"
+    >
+      <option value="all">All layers below</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+
+
       {#if paletteValues}
-        &nbsp; Update-Intervall: <select
+        &nbsp;  <select
         class="formInput"
         on:change={changeInterval}
         bind:value={paletteValues.adjustment_layer_update}
         name="adjustment_layer_update"
       >
-        <option value="never">never</option>
+        <option value="never">No auto update</option>
         <option value="250">250ms</option>
         <option value="500">500ms</option>
         <option value="1000">1s</option>
@@ -210,4 +225,7 @@
         font-family: system-ui, 'Segoe UI', Roboto;
         background: black;
     }  
+    .toggle {
+      vertical-align: -10px;
+    }
 </style>
