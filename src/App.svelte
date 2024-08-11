@@ -17,9 +17,8 @@
      */    
     export let height=500
     /**
-     * object with data property to save scene on destroy 
+     * layer object
      */
-    export let external_scene_storage=null
     export let layer={} 
 
     export function refresh() {
@@ -29,8 +28,7 @@
 
 
     function _destroy() {
-        if (!external_scene_storage) return
-      //  external_scene_storage.data=getScene()
+      //  layer.data=getScene()  no binary data to save here
     }
     onMount(() => {
         return () => {
