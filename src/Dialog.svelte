@@ -35,8 +35,8 @@
     return menu
   }
   let observerID
+  // eslint-disable-next-line no-unused-vars
   async function observerCallBack(changes) {
-    console.log("changes",changes)
     await executeAll()
   }
   function openMenu() {
@@ -52,7 +52,7 @@
         layer=layer        
         globalThis.gyre.layerManager.selectLayers([layer.id])
         if (globalThis.gyre.paletteValues.adjustment_layer_update && globalThis.gyre.paletteValues.adjustment_layer_update!=="never") {
-          observerID=globalThis.gyre.layerManager.observeChangesSameLevel(layer.id,observerCallBack,parseInt(globalThis.gyre.paletteValues.adjustment_layer_update))
+          observerID=globalThis.gyre.layerManager.observeChangesSameGroup(layer.id,observerCallBack,parseInt(globalThis.gyre.paletteValues.adjustment_layer_update))
         }
         // open dialog
         openProperties()
@@ -66,7 +66,7 @@
   export async function executeAll() {
     let gyre=globalThis.gyre
 
-    let layers=gyre.layerManager.getLayersSameLevel(layer.id)
+    let layers=gyre.layerManager.getLayersSameGroup(layer.id)
     if (!layers || layers.length===1) return  // nothing below adjustment layer -> do nothing
     for(let i=layers.length-1;i>=0;i--) {      // get all adjustment layer in stack
       let l=layers[i]
@@ -132,7 +132,7 @@
       globalThis.gyre.layerManager.deleteObserver(observerID)
       return
     }
-    observerID=globalThis.gyre.layerManager.observeChangesSameLevel(layer.id,observerCallBack,parseInt(e.target.value))
+    observerID=globalThis.gyre.layerManager.observeChangesSameGroup(layer.id,observerCallBack,parseInt(e.target.value))
 
   }
 
