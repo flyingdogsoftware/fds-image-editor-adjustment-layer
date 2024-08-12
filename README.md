@@ -10,6 +10,7 @@
   <img src="https://gyre.ai/images/logo.png" alt="Gyre Logo" width="150px">
 </p>
 
+AI (and non-AI) adjustment layer fpor Gyre editing application with full support of any ComfyUI workflow.
 
 ## Installation
 npm i @fds-components-public/fds-image-editor-adjustment-layer
