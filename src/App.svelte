@@ -79,21 +79,21 @@
     let mergedImageURL
   export async function execute() {
     if (!layer.formData) return
-    let gyre = globalThis.gyre;
+    let gyre = globalThis.gyre
 
-    let layers = gyre.layerManager.getLayersSameLevel(layer.id);
-    if (!layers || layers.length === 1) return; // nothing below adjustment layer -> do nothing
+    let layers = gyre.layerManager.getLayersSameGroup(layer.id)
+    if (!layers || layers.length === 1) return // nothing below adjustment layer -> do nothing
 
     let list = [];
     for (let i = layers.length - 1; i >= 0; i--) { // get all layers with image (url) in it below adjustment layer
         let l = layers[i];
         if (l.id === layer.id) break;
-        if (l.url && l.visible) list.unshift(l);
+        if (l.url && l.visible) list.unshift(l)
     }
     if (layer.mergeNum!=="all" && list.length > layer.mergeNum) {
       list = list.slice(0, layer.mergeNum)
     }
-    showProgress = true;
+    showProgress = true
     await tick();
 
     mergedImageURL = await mergeLayers(list, gyre.canvas); // get merged image of all layers below
