@@ -37,6 +37,7 @@
     })    
     
 
+    // eslint-disable-next-line no-unused-vars
     export async function prepareForAI(resultLayer) {
       
     }
@@ -98,6 +99,7 @@
 
     mergedImageURL = await mergeLayers(list, gyre.canvas); // get merged image of all layers below
 
+    // eslint-disable-next-line no-unused-vars
     let callBack_files = async (callbacktype, name, v2, v3, v4) => { // callback for getting files from mappings
         console.log(callbacktype, name);
         if (callbacktype === "getLayerImage" && name === "currentLayer") {
@@ -113,6 +115,7 @@
     data.currentLayer = "empty"; // !important: set default empty values for files for calling callbacks
 
     let executeWorkflow = () => {
+        // eslint-disable-next-line no-unused-vars
         return new Promise((resolve, reject) => {
             let callback_finished = async (result) => {
                 let img = result[0].mime + ";charset=utf-8;base64," + result[0].base64;
