@@ -13,7 +13,7 @@
     "copy:json_doc": "find . -maxdepth 1 -name \"*.json\" ! -name 'package*' ! -name 'COMPONENT_API.json' -type f  -exec cp -- {} dist \\;",
     "cc": "node ./helper/cc.js",
     "runbin": "node ./bin/create-app.js $ARG",
-    "start": "sirv dist --no-clear -p 4006"
+    "start": "sirv dist --no-clear -p 4006 --host"
   },
   "files": [
     "dist/*.js*",

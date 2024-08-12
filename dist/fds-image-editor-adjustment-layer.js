@@ -514,25 +514,25 @@ var app = (function () {
     			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
     			set_custom_element_data(fds_image_editor_button0, "type", "icon");
     			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-    			add_location(fds_image_editor_button0, file$1, 155, 6, 5670);
+    			add_location(fds_image_editor_button0, file$1, 155, 6, 5680);
     			set_custom_element_data(fds_image_editor_button1, "type", "button");
-    			add_location(fds_image_editor_button1, file$1, 160, 6, 5915);
+    			add_location(fds_image_editor_button1, file$1, 160, 6, 5925);
     			option0.__value = "all";
     			option0.value = option0.__value;
-    			add_location(option0, file$1, 172, 6, 6203);
+    			add_location(option0, file$1, 172, 6, 6213);
     			option1.__value = "1";
     			option1.value = option1.__value;
-    			add_location(option1, file$1, 173, 6, 6255);
+    			add_location(option1, file$1, 173, 6, 6265);
     			option2.__value = "2";
     			option2.value = option2.__value;
-    			add_location(option2, file$1, 174, 6, 6290);
+    			add_location(option2, file$1, 174, 6, 6300);
     			option3.__value = "3";
     			option3.value = option3.__value;
-    			add_location(option3, file$1, 175, 6, 6325);
+    			add_location(option3, file$1, 175, 6, 6335);
     			attr_dev(select, "class", "formInput");
     			attr_dev(select, "name", "num_layers");
     			if (/*layer*/ ctx[0].mergeNum === void 0) add_render_callback(() => /*select_change_handler*/ ctx[10].call(select));
-    			add_location(select, file$1, 167, 6, 6101);
+    			add_location(select, file$1, 167, 6, 6111);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, fds_image_editor_button0, anchor);
@@ -626,9 +626,9 @@ var app = (function () {
     			set_custom_element_data(fds_image_editor_button0, "icon", "fds-image-editor-adjustment-layer-icon");
     			set_custom_element_data(fds_image_editor_button0, "type", "icon");
     			set_custom_element_data(fds_image_editor_button0, "class", "icon");
-    			add_location(fds_image_editor_button0, file$1, 145, 4, 5276);
+    			add_location(fds_image_editor_button0, file$1, 145, 4, 5286);
     			set_custom_element_data(fds_image_editor_button1, "type", "button");
-    			add_location(fds_image_editor_button1, file$1, 149, 6, 5493);
+    			add_location(fds_image_editor_button1, file$1, 149, 6, 5503);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, fds_image_editor_button0, anchor);
@@ -703,29 +703,29 @@ var app = (function () {
     			if_block_anchor = empty();
     			option0.__value = "never";
     			option0.value = option0.__value;
-    			add_location(option0, file$1, 186, 8, 6595);
+    			add_location(option0, file$1, 186, 8, 6605);
     			option1.__value = "250";
     			option1.value = option1.__value;
-    			add_location(option1, file$1, 187, 8, 6649);
+    			add_location(option1, file$1, 187, 8, 6659);
     			option2.__value = "500";
     			option2.value = option2.__value;
-    			add_location(option2, file$1, 188, 8, 6692);
+    			add_location(option2, file$1, 188, 8, 6702);
     			option3.__value = "1000";
     			option3.value = option3.__value;
-    			add_location(option3, file$1, 189, 8, 6735);
+    			add_location(option3, file$1, 189, 8, 6745);
     			option4.__value = "2000";
     			option4.value = option4.__value;
-    			add_location(option4, file$1, 190, 8, 6776);
+    			add_location(option4, file$1, 190, 8, 6786);
     			option5.__value = "5000";
     			option5.value = option5.__value;
-    			add_location(option5, file$1, 191, 8, 6817);
+    			add_location(option5, file$1, 191, 8, 6827);
     			option6.__value = "10000";
     			option6.value = option6.__value;
-    			add_location(option6, file$1, 192, 8, 6858);
+    			add_location(option6, file$1, 192, 8, 6868);
     			attr_dev(select, "class", "formInput");
     			attr_dev(select, "name", "adjustment_layer_update");
     			if (/*paletteValues*/ ctx[2].adjustment_layer_update === void 0) add_render_callback(() => /*select_change_handler_1*/ ctx[11].call(select));
-    			add_location(select, file$1, 180, 16, 6412);
+    			add_location(select, file$1, 180, 16, 6422);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -805,7 +805,7 @@ var app = (function () {
     			fds_image_editor_button.textContent = "Update Now";
     			set_custom_element_data(fds_image_editor_button, "type", "button");
     			set_custom_element_data(fds_image_editor_button, "state", "active");
-    			add_location(fds_image_editor_button, file$1, 198, 6, 7053);
+    			add_location(fds_image_editor_button, file$1, 198, 6, 7063);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -854,7 +854,7 @@ var app = (function () {
     			div = element("div");
     			if_block.c();
     			this.c = noop;
-    			add_location(div, file$1, 143, 0, 5240);
+    			add_location(div, file$1, 143, 0, 5250);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -947,8 +947,8 @@ var app = (function () {
 
     	let observerID;
 
+    	// eslint-disable-next-line no-unused-vars
     	async function observerCallBack(changes) {
-    		console.log("changes", changes);
     		await executeAll();
     	}
 
@@ -967,7 +967,7 @@ var app = (function () {
     			globalThis.gyre.layerManager.selectLayers([layer.id]);
 
     			if (globalThis.gyre.paletteValues.adjustment_layer_update && globalThis.gyre.paletteValues.adjustment_layer_update !== "never") {
-    				observerID = globalThis.gyre.layerManager.observeChangesSameLevel(layer.id, observerCallBack, parseInt(globalThis.gyre.paletteValues.adjustment_layer_update));
+    				observerID = globalThis.gyre.layerManager.observeChangesSameGroup(layer.id, observerCallBack, parseInt(globalThis.gyre.paletteValues.adjustment_layer_update));
     			}
 
     			// open dialog
@@ -986,7 +986,7 @@ var app = (function () {
 
     	async function executeAll() {
     		let gyre = globalThis.gyre;
-    		let layers = gyre.layerManager.getLayersSameLevel(layer.id);
+    		let layers = gyre.layerManager.getLayersSameGroup(layer.id);
     		if (!layers || layers.length === 1) return; // nothing below adjustment layer -> do nothing
 
     		for (let i = layers.length - 1; i >= 0; i--) {
@@ -1047,7 +1047,7 @@ var app = (function () {
     			return;
     		}
 
-    		observerID = globalThis.gyre.layerManager.observeChangesSameLevel(layer.id, observerCallBack, parseInt(e.target.value));
+    		observerID = globalThis.gyre.layerManager.observeChangesSameGroup(layer.id, observerCallBack, parseInt(e.target.value));
     	}
 
     	let paletteValues;
@@ -1209,7 +1209,7 @@ var app = (function () {
     const { console: console_1 } = globals;
     const file = "src/App.svelte";
 
-    // (179:0) {#if layer.url}
+    // (180:0) {#if layer.url}
     function create_if_block(ctx) {
     	let div;
     	let img;
@@ -1229,9 +1229,9 @@ var app = (function () {
     			if_block_anchor = empty();
     			if (!src_url_equal(img.src, img_src_value = /*layer*/ ctx[0].url)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "style", img_style_value = "width:" + /*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px");
-    			add_location(img, file, 181, 4, 5775);
+    			add_location(img, file, 182, 4, 5801);
     			attr_dev(div, "style", div_style_value = "" + (/*width*/ ctx[1] + "px;height=" + /*height*/ ctx[2] + "px; position: relative"));
-    			add_location(div, file, 179, 4, 5659);
+    			add_location(div, file, 180, 4, 5685);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1276,14 +1276,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(179:0) {#if layer.url}",
+    		source: "(180:0) {#if layer.url}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (184:4) {#if showProgress}
+    // (185:4) {#if showProgress}
     function create_if_block_1(ctx) {
     	let div;
     	let fds_image_editor_progress_bar;
@@ -1292,11 +1292,11 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			fds_image_editor_progress_bar = element("fds-image-editor-progress-bar");
-    			add_location(fds_image_editor_progress_bar, file, 183, 66, 5917);
+    			add_location(fds_image_editor_progress_bar, file, 184, 66, 5943);
     			set_style(div, "position", "absolute");
     			set_style(div, "left", "0");
     			set_style(div, "top", "0");
-    			add_location(div, file, 183, 22, 5873);
+    			add_location(div, file, 184, 22, 5899);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1311,7 +1311,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(184:4) {#if showProgress}",
+    		source: "(185:4) {#if showProgress}",
     		ctx
     	});
 
@@ -1367,6 +1367,10 @@ var app = (function () {
 
     	return block;
     }
+
+    function _destroy() {
+    	
+    } //  layer.data=getScene()  no binary data to save here
 
     async function prepareForAI(resultLayer) {
     	
@@ -1428,16 +1432,11 @@ var app = (function () {
     	validate_slots('fds-image-editor-adjustment-layer', slots, []);
     	let { width = 500 } = $$props;
     	let { height = 500 } = $$props;
-    	let { external_scene_storage = null } = $$props;
     	let { layer = {} } = $$props;
 
     	function refresh() {
     		$$invalidate(0, layer);
     	}
-
-    	function _destroy() {
-    		if (!external_scene_storage) return;
-    	} //  external_scene_storage.data=getScene()
 
     	onMount(() => {
     		return () => {
@@ -1464,7 +1463,7 @@ var app = (function () {
     	async function execute() {
     		if (!layer.formData) return;
     		let gyre = globalThis.gyre;
-    		let layers = gyre.layerManager.getLayersSameLevel(layer.id);
+    		let layers = gyre.layerManager.getLayersSameGroup(layer.id);
     		if (!layers || layers.length === 1) return; // nothing below adjustment layer -> do nothing
     		let list = [];
 
@@ -1484,6 +1483,7 @@ var app = (function () {
     		await tick();
     		mergedImageURL = await mergeLayers(list, gyre.canvas); // get merged image of all layers below
 
+    		// eslint-disable-next-line no-unused-vars
     		let callBack_files = async (callbacktype, name, v2, v3, v4) => {
     			// callback for getting files from mappings
     			console.log(callbacktype, name);
@@ -1501,6 +1501,7 @@ var app = (function () {
     		data.currentLayer = "empty"; // !important: set default empty values for files for calling callbacks
 
     		let executeWorkflow = () => {
+    			// eslint-disable-next-line no-unused-vars
     			return new Promise((resolve, reject) => {
     					let callback_finished = async result => {
     						let img = result[0].mime + ";charset=utf-8;base64," + result[0].base64;
@@ -1526,7 +1527,7 @@ var app = (function () {
     	}
 
     	let showProgress;
-    	const writable_props = ['width', 'height', 'external_scene_storage', 'layer'];
+    	const writable_props = ['width', 'height', 'layer'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<fds-image-editor-adjustment-layer> was created with unknown prop '${key}'`);
@@ -1535,7 +1536,6 @@ var app = (function () {
     	$$self.$$set = $$props => {
     		if ('width' in $$props) $$invalidate(1, width = $$props.width);
     		if ('height' in $$props) $$invalidate(2, height = $$props.height);
-    		if ('external_scene_storage' in $$props) $$invalidate(4, external_scene_storage = $$props.external_scene_storage);
     		if ('layer' in $$props) $$invalidate(0, layer = $$props.layer);
     	};
 
@@ -1545,7 +1545,6 @@ var app = (function () {
     		tick,
     		width,
     		height,
-    		external_scene_storage,
     		layer,
     		refresh,
     		_destroy,
@@ -1563,7 +1562,6 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ('width' in $$props) $$invalidate(1, width = $$props.width);
     		if ('height' in $$props) $$invalidate(2, height = $$props.height);
-    		if ('external_scene_storage' in $$props) $$invalidate(4, external_scene_storage = $$props.external_scene_storage);
     		if ('layer' in $$props) $$invalidate(0, layer = $$props.layer);
     		if ('mergedImageURL' in $$props) mergedImageURL = $$props.mergedImageURL;
     		if ('showProgress' in $$props) $$invalidate(3, showProgress = $$props.showProgress);
@@ -1578,7 +1576,6 @@ var app = (function () {
     		width,
     		height,
     		showProgress,
-    		external_scene_storage,
     		refresh,
     		prepareForAI,
     		addLayer,
@@ -1606,15 +1603,14 @@ var app = (function () {
     			{
     				width: 1,
     				height: 2,
-    				external_scene_storage: 4,
     				layer: 0,
-    				refresh: 5,
-    				prepareForAI: 6,
-    				addLayer: 7,
-    				prepareForSave: 8,
-    				getLayerMenuHTML: 9,
-    				quickMask: 10,
-    				execute: 11
+    				refresh: 4,
+    				prepareForAI: 5,
+    				addLayer: 6,
+    				prepareForSave: 7,
+    				getLayerMenuHTML: 8,
+    				quickMask: 9,
+    				execute: 10
     			},
     			null
     		);
@@ -1635,7 +1631,6 @@ var app = (function () {
     		return [
     			"width",
     			"height",
-    			"external_scene_storage",
     			"layer",
     			"refresh",
     			"prepareForAI",
@@ -1665,15 +1660,6 @@ var app = (function () {
     		flush();
     	}
 
-    	get external_scene_storage() {
-    		return this.$$.ctx[4];
-    	}
-
-    	set external_scene_storage(external_scene_storage) {
-    		this.$$set({ external_scene_storage });
-    		flush();
-    	}
-
     	get layer() {
     		return this.$$.ctx[0];
     	}
@@ -1684,7 +1670,7 @@ var app = (function () {
     	}
 
     	get refresh() {
-    		return this.$$.ctx[5];
+    		return this.$$.ctx[4];
     	}
 
     	set refresh(value) {
@@ -1708,7 +1694,7 @@ var app = (function () {
     	}
 
     	get prepareForSave() {
-    		return this.$$.ctx[8];
+    		return this.$$.ctx[7];
     	}
 
     	set prepareForSave(value) {
@@ -1716,7 +1702,7 @@ var app = (function () {
     	}
 
     	get getLayerMenuHTML() {
-    		return this.$$.ctx[9];
+    		return this.$$.ctx[8];
     	}
 
     	set getLayerMenuHTML(value) {
@@ -1732,7 +1718,7 @@ var app = (function () {
     	}
 
     	get execute() {
-    		return this.$$.ctx[11];
+    		return this.$$.ctx[10];
     	}
 
     	set execute(value) {
