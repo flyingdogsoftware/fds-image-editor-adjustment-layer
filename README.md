@@ -1,4 +1,4 @@
-# fds-image-editor-adjustmet-layer 🖌️✨
+# fds-image-editor-adjustment-layer 🖌️✨
 
 [![Gyre SDK](https://img.shields.io/badge/Gyre%20SDK-Explore-blue?style=for-the-badge&logo=github)](https://flyingdogsoftware.github.io/gyre-sdk/)
 [![Gyre Extensions](https://img.shields.io/badge/Gyre%20Extensions-Repository-blue?style=for-the-badge&logo=github)](https://github.com/flyingdogsoftware/gyre-extensions/)
