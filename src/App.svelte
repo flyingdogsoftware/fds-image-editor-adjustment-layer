@@ -186,7 +186,7 @@
     const centerY = layer.y + layer.height / 2;
     
     context.translate(centerX, centerY);
-    context.rotate(layer.rotation * Math.PI / 180); // Convert degrees to radians
+    context.rotate(layer.rotation ); 
     context.translate(-centerX, -centerY);
   }
   
