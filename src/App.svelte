@@ -43,13 +43,23 @@
     }
 
 
-    export function addLayer(newlayer) {
+    export function layerInstance() {
+        class adjustmentLayer extends globalThis.gyre.getLayerBaseClass() {
+            background_type
+            workflow
+            workflowData
+            formData
+            workflowid
+            workflowname
+        }
+        let newlayer=new adjustmentLayer()
         newlayer.type = 'fds-image-editor-adjustment-layer'
         newlayer.name = 'Adjustment'
         newlayer.letter = "A"
         newlayer.background_type = 'transparent'
         newlayer.workflow="",
         newlayer.workflowData={}
+        return newlayer
     }
 
     export async function prepareForSave() {
