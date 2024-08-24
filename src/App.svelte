@@ -171,35 +171,35 @@
 
     // Iterate over the layers starting from the bottom layer
     let start=layers.length - 1 // all layers below
-
+    // render layers, plan to replace by main API function as new mask handling is coming
     for (let i = start; i >= 0; i--) {
-  const layer = layers[i];
-  const img = await loadImage(layer.url);
-  
-  // Save the current context state
-  context.save();
-  
-  // Check if the layer has a rotation parameter
-  if (layer.rotation) {
-    // Move the context origin to the center of the image or canvas to rotate around its center
-    const centerX = layer.x + layer.width / 2;
-    const centerY = layer.y + layer.height / 2;
-    
-    context.translate(centerX, centerY);
-    context.rotate(layer.rotation ); 
-    context.translate(-centerX, -centerY);
-  }
-  
-  // Draw the image or canvas
-  if (layer.canvas) {
-    context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height);
-  } else {
-    context.drawImage(img, layer.x, layer.y, layer.width, layer.height);
-  }
-  
-  // Restore the context to its original state
-  context.restore();
-}
+        const layer = layers[i]
+        const img = await loadImage(layer.url)
+        
+        // Save the current context state
+        context.save()
+        
+        // Check if the layer has a rotation parameter
+        if (layer.rotation) {
+            // Move the context origin to the center of the image or canvas to rotate around its center
+            const centerX = layer.x + layer.width / 2
+            const centerY = layer.y + layer.height / 2
+            
+            context.translate(centerX, centerY)
+            context.rotate(layer.rotation )
+            context.translate(-centerX, -centerY)
+        }
+        
+        // Draw the image or canvas
+        if (layer.canvas) {
+            context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height)
+        } else {
+            context.drawImage(img, layer.x, layer.y, layer.width, layer.height)
+        }
+        
+        // Restore the context to its original state
+        context.restore()
+    }
 
     // Convert the off-screen canvas to a data URL and return it
     return offScreenCanvas.toDataURL();
