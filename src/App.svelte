@@ -198,7 +198,7 @@
             }            
             context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height)  // just canvas on canvas
         } else {
-            context.drawImage(await layer.renderInDocumentSize(), 0, 0,canvasObject.width, canvasObject.height) // using layer API here with mask support
+            context.drawImage(await globalThis.gyre.imageAPI.loadImage(await layer.renderInDocumentSize()), 0, 0,canvasObject.width, canvasObject.height) // using layer API here with mask support
         }
         
         // Restore the context to its original state
@@ -206,7 +206,7 @@
     }
 
     // Convert the off-screen canvas to a data URL and return it
-    return offScreenCanvas.toDataURL();
+    return offScreenCanvas.toDataURL()
 }
 let showProgress
 </script>
