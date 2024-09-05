@@ -99,7 +99,7 @@
     for (let i = layers.length - 1; i >= 0; i--) { // get all layers with image (url) in it below adjustment layer
         let l = layers[i];
         if (l.id === layer.id) break;
-        if (l.url && l.visible) list.unshift(l)
+        if (l.url && (l.visible || l.type==="mask" || layer.mergeNum==1)) list.unshift(l)    // mask layer or just one layer can be invisible 
     }
     if (layer.mergeNum!=="all" && list.length > layer.mergeNum) {
       list = list.slice(0, layer.mergeNum)
