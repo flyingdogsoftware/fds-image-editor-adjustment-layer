@@ -105,21 +105,30 @@
       list = list.slice(0, layer.mergeNum)
     }
     showProgress = true
-    await tick();
+    await tick()
+    if (list[0].type==="mask") {    // special case: adjustment layer on mask
+        list = list.slice(0, 1) // only one layer
+        layer.mergeNum=1        
+    }
+    if (list[0].type==="mask") {
+        mergedImageURL=await getMaskLayer(list[0])  // mask only
+    } else {
+        mergedImageURL = await mergeLayers(list, gyre.canvas) // get merged image of n layers below
+    }
 
-    mergedImageURL = await mergeLayers(list, gyre.canvas); // get merged image of all layers below
+    
 
     // eslint-disable-next-line no-unused-vars
     let callBack_files = async (callbacktype, name, v2, v3, v4) => { // callback for getting files from mappings
-        console.log(callbacktype, name);
+        console.log(callbacktype, name)    // add layer image support here
         if (callbacktype === "getLayerImage" && name === "currentLayer") {
-            return await mergedImageURL;
+            return await mergedImageURL
         }
-    };
+    }
 
     let callback_error = async (nodeName) => {
         console.log("Error at " + nodeName);
-    };
+    }
 
     let data = gyre.ComfyUI.convertFormData(layer.formData);
     data.currentLayer = "empty"; // !important: set default empty values for files for calling callbacks
@@ -129,26 +138,34 @@
         return new Promise((resolve, reject) => {
             let callback_finished = async (result) => {
                 let img = result[0].mime + ";charset=utf-8;base64," + result[0].base64;
-                // apply alpha channel to result
-                if (layer.no_preserve_transparency) {
-                    layer.url = img;
-                } else {
-                    layer.url = await gyre.imageAPI.applyAlphaChannel(img, mergedImageURL);
-                }
 
-                showProgress = false;
-                let component = layer.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0];
-                component.refresh();
-                resolve();
+                if (list[0].type==="mask") {    // mask
+                    layer.url=img
+                    layer.ref=list[0].id  // link this new layer to the mask layer
+                    layer.refType="moveTool"
+                } else {    // image
+                    // apply alpha channel and masks to result
+                    if (layer.no_preserve_transparency) {
+                        layer.url = img
+                    } else {
+                        layer.url = await gyre.imageAPI.applyAlphaChannel(img, mergedImageURL)
+                    }                    
+                }
+                showProgress = false
+                let component = layer.element.getElementsByTagName("fds-image-editor-adjustment-layer")[0]
+                component.refresh()
+                resolve()
             };
 
             gyre.ComfyUI.executeWorkflowById(layer.workflowid, callback_finished, callBack_files, data, callback_error);
         });
     };
 
-    await executeWorkflow();
+    await executeWorkflow()
   }
-
+  async function getMaskLayer(layer) {
+    return layer.url
+  }
   async function mergeLayers(layers, canvasObject) {
     // Create an off-screen canvas
     const offScreenCanvas = window.document.createElement('canvas')
@@ -159,42 +176,29 @@
     // Clear the off-screen canvas
     context.clearRect(0, 0, offScreenCanvas.width, offScreenCanvas.height);
 
-    // Load an image from a URL
-    function loadImage(url) {
-      return new Promise((resolve, reject) => {
-        const img = new Image()
-        img.onload = () => resolve(img)
-        img.onerror = reject
-        img.src = url
-      })
-    }
-
     // Iterate over the layers starting from the bottom layer
     let start=layers.length - 1 // all layers below
     // render layers, plan to replace by main API function as new mask handling is coming
     for (let i = start; i >= 0; i--) {
         const layer = layers[i]
-        const img = await loadImage(layer.url)
         
-        // Save the current context state
         context.save()
-        
-        // Check if the layer has a rotation parameter
-        if (layer.rotation) {
-            // Move the context origin to the center of the image or canvas to rotate around its center
-            const centerX = layer.x + layer.width / 2
-            const centerY = layer.y + layer.height / 2
-            
-            context.translate(centerX, centerY)
-            context.rotate(layer.rotation )
-            context.translate(-centerX, -centerY)
-        }
-        
+
         // Draw the image or canvas
         if (layer.canvas) {
-            context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height)
+            // Check if the layer has a rotation parameter
+            if (layer.rotation) {
+                context.globalAlpha = layer.opacity / 100
+                // Move the context origin to the center of the image or canvas to rotate around its center
+                const centerX = layer.x + layer.width / 2
+                const centerY = layer.y + layer.height / 2                
+                context.translate(centerX, centerY)
+                context.rotate(layer.rotation )
+                context.translate(-centerX, -centerY)
+            }            
+            context.drawImage(layer.canvas.canvas.canvasList[0], layer.x, layer.y, layer.width, layer.height)  // just canvas on canvas
         } else {
-            context.drawImage(img, layer.x, layer.y, layer.width, layer.height)
+            context.drawImage(await layer.renderInDocumentSize(), 0, 0,canvasObject.width, canvasObject.height) // using layer API here with mask support
         }
         
         // Restore the context to its original state
