@@ -1,6 +1,6 @@
 {
   "name": "@fds-components-public/fds-image-editor-adjustment-layer",
-  "version": "1.0.15",
+  "version": "1.0.16",
   
   "scripts": {
     "build": "npm run build:prepare && rollup -c",

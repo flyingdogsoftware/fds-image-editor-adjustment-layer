@@ -43,7 +43,7 @@
     var contextMenu = window.document.createElement("fds-image-editor-menu");
     contextMenu.menu = menu;
     contextMenu.element = selectButton;
-    contextMenu.callback = (name, p, item) => {
+    contextMenu.callback = (item) => {
         layer.workflowid=item.workflowid
         layer.workflowname=item.name
         layer.no_preserve_transparency=item.no_preserve_transparency
