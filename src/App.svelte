@@ -46,7 +46,7 @@
         return sceneData
     }
     export async function setScene(sceneInfo) {
-        let data=JSON.parse(sceneInfo)
+        let data=sceneInfo
         for(let key in data) {
             layer[key]=data[key]
         }
