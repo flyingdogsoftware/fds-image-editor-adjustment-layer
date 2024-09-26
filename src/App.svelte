@@ -113,6 +113,7 @@
     if (layer.mergeNum!=="all" && list.length > layer.mergeNum) {
       list = list.slice(0, layer.mergeNum)
     }
+    if (!list.length) return
     showProgress = true
     await tick()
     if (list[0].type==="mask") {    // special case: adjustment layer on mask
