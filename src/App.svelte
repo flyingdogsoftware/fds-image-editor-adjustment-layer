@@ -28,7 +28,7 @@
 
 
     function _destroy() {
-      //  layer.data=getScene()  no binary data to save here
+        layer.data=getScene()
     }
     onMount(() => {
         return () => {
@@ -41,8 +41,17 @@
     export async function prepareForAI(resultLayer) {
       
     }
-
-
+    export function getScene() {
+        let sceneData=JSON.parse(JSON.stringify(layer))
+        return sceneData
+    }
+    export async function setScene(sceneInfo) {
+        let data=JSON.parse(sceneInfo)
+        for(let key in data) {
+            layer[key]=data[key]
+        }
+        refresh()
+    }
     export function layerInstance() {
         class adjustmentLayer extends globalThis.gyre.getLayerBaseClass() {
             background_type
