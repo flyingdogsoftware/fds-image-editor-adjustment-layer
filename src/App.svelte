@@ -56,7 +56,6 @@
         class adjustmentLayer extends globalThis.gyre.getLayerBaseClass() {
             background_type
             workflow
-            workflowData
             formData
             workflowid
             workflowname
@@ -67,7 +66,7 @@
         newlayer.letter = "A"
         newlayer.background_type = 'transparent'
         newlayer.workflow="",
-        newlayer.workflowData={}
+        newlayer.formData={}
         return newlayer
     }
 
